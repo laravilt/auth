@@ -1,0 +1,73 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/AuthProvider.php
+
+		-
+			message: '#^Access to an undefined property Laravel\\Socialite\\Contracts\\User\:\:\$token\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Methods/SocialAuth.php
+
+		-
+			message: '#^Parameter \#1 \$user of method Laravilt\\Auth\\Services\\TwoFactorService\:\:enable\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model, Illuminate\\Contracts\\Auth\\Authenticatable given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Methods/TwoFactorAuth.php
+
+		-
+			message: '#^Parameter \#1 \$user of method Laravilt\\Auth\\Services\\TwoFactorService\:\:sendCode\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model, Illuminate\\Contracts\\Auth\\Authenticatable given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Methods/TwoFactorAuth.php
+
+		-
+			message: '#^Parameter \#1 \$user of method Laravilt\\Auth\\Services\\WebAuthnService\:\:generateRegistrationOptions\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model, Illuminate\\Contracts\\Auth\\Authenticatable given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Methods/WebAuthnAuth.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/TwoFactorService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$two_factor_recovery_codes\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/TwoFactorService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$two_factor_secret\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/TwoFactorService.php
+
+		-
+			message: '#^Parameter \#1 \$user of method Laravilt\\Auth\\Services\\TwoFactorService\:\:verifyRecoveryCode\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model, Illuminate\\Contracts\\Auth\\Authenticatable given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Services/TwoFactorService.php
+
+		-
+			message: '#^Parameter \#1 \$user of method Laravilt\\Auth\\Services\\TwoFactorService\:\:verifyTOTP\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model, Illuminate\\Contracts\\Auth\\Authenticatable given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Services/TwoFactorService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/WebAuthnService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/WebAuthnService.php

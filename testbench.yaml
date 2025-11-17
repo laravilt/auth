@@ -1,0 +1,7 @@
+providers:
+  - Laravilt\Support\SupportServiceProvider
+  - Laravilt\Auth\AuthServiceProvider
+
+workbench:
+    start: '/'
+    install: true
