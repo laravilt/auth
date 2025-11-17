@@ -3,7 +3,7 @@
 namespace Laravilt\Auth;
 
 use Closure;
-use Laravilt\Auth\Interfaces\AuthProviderInterface;
+use Laravilt\Auth\Contracts\AuthProviderInterface;
 use Laravilt\Support\Component;
 
 class AuthProvider extends Component implements AuthProviderInterface

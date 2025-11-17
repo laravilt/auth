@@ -4,7 +4,7 @@ namespace Laravilt\Auth\Methods;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Laravilt\Auth\Interfaces\AuthMethod;
+use Laravilt\Auth\Contracts\AuthMethod;
 
 abstract class BaseAuthMethod implements AuthMethod
 {

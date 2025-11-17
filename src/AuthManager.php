@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
-use Laravilt\Auth\Interfaces\AuthMethod;
+use Laravilt\Auth\Contracts\AuthMethod;
 
 class AuthManager
 {

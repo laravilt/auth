@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravilt\Auth\Interfaces;
+namespace Laravilt\Auth\Contracts;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Authenticatable;
