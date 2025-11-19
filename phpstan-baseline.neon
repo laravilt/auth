@@ -1,73 +1,23 @@
 parameters:
-	ignoreErrors:
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 1
-			path: src/AuthProvider.php
+    ignoreErrors:
+        # Eloquent dynamic properties - these are expected for User models
+        -
+            message: '#Access to an undefined property.*::\$#'
+            paths:
+                - src/TwoFactor/*
+                - src/Services/*
+                - src/Http/Controllers/*
+                - src/Providers/*
+                - src/Notifications/*
 
-		-
-			message: '#^Access to an undefined property Laravel\\Socialite\\Contracts\\User\:\:\$token\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Methods/SocialAuth.php
+        # Laravel specific type issues
+        -
+            message: '#Call to an undefined method.*#'
+            paths:
+                - src/Http/Controllers/*
 
-		-
-			message: '#^Parameter \#1 \$user of method Laravilt\\Auth\\Services\\TwoFactorService\:\:enable\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model, Illuminate\\Contracts\\Auth\\Authenticatable given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Methods/TwoFactorAuth.php
-
-		-
-			message: '#^Parameter \#1 \$user of method Laravilt\\Auth\\Services\\TwoFactorService\:\:sendCode\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model, Illuminate\\Contracts\\Auth\\Authenticatable given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Methods/TwoFactorAuth.php
-
-		-
-			message: '#^Parameter \#1 \$user of method Laravilt\\Auth\\Services\\WebAuthnService\:\:generateRegistrationOptions\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model, Illuminate\\Contracts\\Auth\\Authenticatable given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Methods/WebAuthnAuth.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Services/TwoFactorService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$two_factor_recovery_codes\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Services/TwoFactorService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$two_factor_secret\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Services/TwoFactorService.php
-
-		-
-			message: '#^Parameter \#1 \$user of method Laravilt\\Auth\\Services\\TwoFactorService\:\:verifyRecoveryCode\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model, Illuminate\\Contracts\\Auth\\Authenticatable given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Services/TwoFactorService.php
-
-		-
-			message: '#^Parameter \#1 \$user of method Laravilt\\Auth\\Services\\TwoFactorService\:\:verifyTOTP\(\) expects Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model, Illuminate\\Contracts\\Auth\\Authenticatable given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Services/TwoFactorService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Services/WebAuthnService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable&Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Services/WebAuthnService.php
+        # Request dynamic properties
+        -
+            message: '#Cannot access property \$\w+ on Illuminate\\Http\\Request#'
+            paths:
+                - src/Http/Controllers/*

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Laravilt\Auth\Services\OTPService;
 
-class PhoneOTPAuth extends BaseAuthMethod
+class PhoneOTPMethod extends BaseAuthMethod
 {
     public function __construct(
         protected OTPService $otpService,

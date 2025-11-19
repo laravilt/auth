@@ -25,7 +25,6 @@ class EmailProvider implements TwoFactorProvider
     {
         $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
-        /** @phpstan-ignore-next-line */
         Cache::put("2fa.email.{$user->id}", $code, now()->addMinutes(5));
 
         // Send email with code
@@ -43,11 +42,9 @@ class EmailProvider implements TwoFactorProvider
      */
     public function verify(Authenticatable $user, string $code): bool
     {
-        /** @phpstan-ignore-next-line */
         $cachedCode = Cache::get("2fa.email.{$user->id}");
 
         if ($cachedCode && $cachedCode === $code) {
-            /** @phpstan-ignore-next-line */
             Cache::forget("2fa.email.{$user->id}");
 
             return true;
@@ -63,7 +60,6 @@ class EmailProvider implements TwoFactorProvider
      */
     public function disable(Authenticatable $user): bool
     {
-        /** @phpstan-ignore-next-line */
         $user->update([
             'two_factor_enabled' => false,
             'two_factor_method' => null,

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class EmailPasswordAuth extends BaseAuthMethod
+class EmailPasswordMethod extends BaseAuthMethod
 {
     /**
      * Get the method name.

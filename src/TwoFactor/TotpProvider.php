@@ -33,7 +33,6 @@ class TotpProvider implements TwoFactorProvider
     {
         $secret = $this->google2fa->generateSecretKey();
 
-        /** @phpstan-ignore-next-line */
         $user->update([
             'two_factor_secret' => encrypt($secret),
             'two_factor_enabled' => true,
@@ -42,7 +41,6 @@ class TotpProvider implements TwoFactorProvider
 
         $qrCodeUrl = $this->google2fa->getQRCodeUrl(
             config('app.name'),
-            /** @phpstan-ignore-next-line */
             $user->email,
             $secret
         );
@@ -62,12 +60,10 @@ class TotpProvider implements TwoFactorProvider
      */
     public function verify(Authenticatable $user, string $code): bool
     {
-        /** @phpstan-ignore-next-line */
         if (! $user->two_factor_secret) {
             return false;
         }
 
-        /** @phpstan-ignore-next-line */
         $secret = decrypt($user->two_factor_secret);
 
         return $this->google2fa->verifyKey($secret, $code);
@@ -80,7 +76,6 @@ class TotpProvider implements TwoFactorProvider
      */
     public function disable(Authenticatable $user): bool
     {
-        /** @phpstan-ignore-next-line */
         $user->update([
             'two_factor_secret' => null,
             'two_factor_enabled' => false,

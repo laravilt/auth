@@ -3,12 +3,14 @@
 namespace Laravilt\Auth;
 
 use Illuminate\Support\ServiceProvider;
-use Laravilt\Auth\Methods\EmailPasswordAuth;
-use Laravilt\Auth\Methods\PhoneOTPAuth;
-use Laravilt\Auth\Methods\PasswordlessAuth;
-use Laravilt\Auth\Methods\SocialAuth;
-use Laravilt\Auth\Methods\TwoFactorAuth;
-use Laravilt\Auth\Methods\WebAuthnAuth;
+use Laravilt\Auth\Console\Commands\GenerateAuthCommand;
+use Laravilt\Auth\Console\Commands\InstallAuthCommand;
+use Laravilt\Auth\Methods\EmailPasswordMethod;
+use Laravilt\Auth\Methods\PhoneOTPMethod;
+use Laravilt\Auth\Methods\PasswordlessMethod;
+use Laravilt\Auth\Methods\SocialLoginMethod;
+use Laravilt\Auth\Methods\TwoFactorMethod;
+use Laravilt\Auth\Methods\WebAuthnMethod;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -50,7 +52,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         // Load routes
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/auth.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/profile.php');
 
         if ($this->app->runningInConsole()) {
             // Publish config
@@ -74,9 +77,10 @@ class AuthServiceProvider extends ServiceProvider
             ], 'laravilt-auth-migrations');
 
             // Register commands
-            // $this->commands([
-            //     MakeAuth::class,
-            // ]);
+            $this->commands([
+                InstallAuthCommand::class,
+                GenerateAuthCommand::class,
+            ]);
         }
 
         // Register default auth methods
@@ -90,11 +94,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $authManager = $this->app->make('laravilt.auth');
 
-        $authManager->registerMethod('email', EmailPasswordAuth::class);
-        $authManager->registerMethod('phone', PhoneOTPAuth::class);
-        $authManager->registerMethod('social', SocialAuth::class);
-        $authManager->registerMethod('passwordless', PasswordlessAuth::class);
-        $authManager->registerMethod('webauthn', WebAuthnAuth::class);
-        $authManager->registerMethod('2fa', TwoFactorAuth::class);
+        $authManager->registerMethod('email', EmailPasswordMethod::class);
+        $authManager->registerMethod('phone', PhoneOTPMethod::class);
+        $authManager->registerMethod('social', SocialLoginMethod::class);
+        $authManager->registerMethod('passwordless', PasswordlessMethod::class);
+        $authManager->registerMethod('webauthn', WebAuthnMethod::class);
+        $authManager->registerMethod('2fa', TwoFactorMethod::class);
     }
 }

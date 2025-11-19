@@ -27,7 +27,6 @@ class SmsProvider implements TwoFactorProvider
      */
     public function generate(Authenticatable $user): array
     {
-        /** @phpstan-ignore-next-line */
         $phone = $user->phone ?? '';
 
         if (empty($phone)) {
@@ -48,7 +47,6 @@ class SmsProvider implements TwoFactorProvider
      */
     public function verify(Authenticatable $user, string $code): bool
     {
-        /** @phpstan-ignore-next-line */
         $phone = $user->phone ?? '';
 
         if (empty($phone)) {
@@ -65,7 +63,6 @@ class SmsProvider implements TwoFactorProvider
      */
     public function disable(Authenticatable $user): bool
     {
-        /** @phpstan-ignore-next-line */
         $user->update([
             'two_factor_enabled' => false,
             'two_factor_method' => null,

@@ -5,23 +5,19 @@ namespace Laravilt\Auth\Methods;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
-use Laravilt\Auth\Services\WebAuthnService;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
-class WebAuthnAuth extends BaseAuthMethod
+class PasswordlessMethod extends BaseAuthMethod
 {
-    public function __construct(
-        protected WebAuthnService $webAuthnService,
-        array $config = []
-    ) {
-        parent::__construct($config);
-    }
-
     /**
      * Get the method name.
      */
     public function getName(): string
     {
-        return 'webauthn';
+        return 'passwordless';
     }
 
     /**
@@ -29,12 +25,19 @@ class WebAuthnAuth extends BaseAuthMethod
      */
     public function authenticate(Request $request): ?Authenticatable
     {
-        $email = $request->input('email');
-        $credential = $request->input('credential');
+        $token = $request->input('token');
 
-        if (! $this->webAuthnService->verify($email, $credential)) {
+        if (! $token) {
             return null;
         }
+
+        $email = Cache::get("passwordless.{$token}");
+
+        if (! $email) {
+            return null;
+        }
+
+        Cache::forget("passwordless.{$token}");
 
         $guard = $this->config('guard', 'web');
         $model = $this->config('model');
@@ -55,7 +58,7 @@ class WebAuthnAuth extends BaseAuthMethod
      */
     public function canHandle(Request $request): bool
     {
-        return $request->has(['email', 'credential']);
+        return $request->has('token');
     }
 
     /**
@@ -65,25 +68,29 @@ class WebAuthnAuth extends BaseAuthMethod
     {
         $request->validate([
             'email' => ['required', 'email'],
-            'credential' => ['required', 'array'],
         ]);
 
         return true;
     }
 
     /**
-     * Generate registration options.
+     * Send magic link to email.
      */
-    public function generateRegistrationOptions(Authenticatable $user): array
+    public function sendMagicLink(string $email): bool
     {
-        return $this->webAuthnService->generateRegistrationOptions($user);
-    }
+        $token = Str::random(64);
 
-    /**
-     * Generate authentication options.
-     */
-    public function generateAuthenticationOptions(string $email): array
-    {
-        return $this->webAuthnService->generateAuthenticationOptions($email);
+        Cache::put("passwordless.{$token}", $email, now()->addMinutes(15));
+
+        $url = URL::temporarySignedRoute(
+            'laravilt.auth.passwordless.login',
+            now()->addMinutes(15),
+            ['token' => $token]
+        );
+
+        // Send email with magic link
+        // Mail::to($email)->send(new MagicLinkMail($url));
+
+        return true;
     }
 }

@@ -1,6 +1,8 @@
-# Laravilt Auth Package
+![Screenshot](https://raw.githubusercontent.com/laravilt/auth/master/arts/cover.jpg)
 
-Complete authentication system for Laravilt with multiple authentication methods, multi-guard support, and panel integration.
+# Laravilt Auth
+
+Complete authentication system for Laravilt with multiple authentication methods, multi-guard support, and comprehensive security features.
 
 ## Installation
 
@@ -11,34 +13,32 @@ composer require laravilt/auth
 ## Features
 
 - ✅ Multiple authentication methods (Email/Password, Phone/OTP, Social, Passwordless, WebAuthn)
-- ✅ Two-factor authentication (TOTP, SMS, Email)
-- ✅ Multi-guard support
-- ✅ Social login (Google, GitHub, Facebook)
+- ✅ Two-factor authentication (TOTP, SMS, Email, WebAuthn)
+- ✅ Multi-guard support with custom guard implementation
+- ✅ Social login (Google, GitHub, Facebook, Twitter, LinkedIn)
 - ✅ Email verification & Password reset
 - ✅ Profile, Session & API token management
 - ✅ Multi-language (English/Arabic) with RTL support
+- ✅ Console commands for installation and configuration
+- ✅ Comprehensive notification system
+- ✅ Security features (session management, login alerts, account deletion)
 
-## Current Implementation Status
+## Quick Start
 
-### ✅ Core Components (Completed)
-- AuthServiceProvider, AuthManager, AuthProvider
-- 6 Authentication Methods (Email, Phone/OTP, Social, Passwordless, WebAuthn, 2FA)
-- 3 Services (OTPService, TwoFactorService, WebAuthnService)
-- 3 TwoFactor Providers (TOTP, SMS, Email)
-- 3 Models (SocialAccount, TwoFactorCode, PersonalAccessToken)
-- 4 Migrations (users 2FA columns, social accounts, webauthn credentials, 2FA codes)
-- Complete routing configuration
-- English & Arabic translations
-- 20 unit tests passing, PHPStan Level 5 (0 errors)
+### Install the package
 
-### 📋 Pending Components
-Controllers (14), Middleware (3), Guards (1), Providers (2), Notifications (4), Commands (2), Views (14 Blade + Vue), JavaScript (7 files), CSS (1 file), Feature Tests, Documentation
+```bash
+composer require laravilt/auth
+php artisan laravilt:auth:install
+```
 
-See [Implementation Details](#implementation-details) below for full breakdown.
+The installation wizard will guide you through:
+- Selecting authentication methods
+- Configuring 2FA options
+- Choosing social providers
+- Publishing assets and views
 
-## Usage
-
-### Basic Setup
+### Manual Configuration
 
 ```php
 use Laravilt\Auth\AuthProvider;
@@ -49,141 +49,365 @@ $auth = AuthProvider::make()
     ->loginBy('email')
     ->registration()
     ->emailVerification()
-    ->twoFactor(['totp'])
-    ->withSocial(['google', 'github']);
+    ->passwordReset()
+    ->twoFactor(['totp', 'sms'])
+    ->withSocial(['google', 'github'])
+    ->profile()
+    ->sessions()
+    ->apiTokens();
 ```
 
-### Authentication
+## Current Implementation Status
+
+### ✅ Core Backend (100% Complete)
+
+#### 1. Core Architecture
+- ✅ **AuthServiceProvider** - Service provider with auto-discovery
+- ✅ **AuthManager** - Central authentication manager
+- ✅ **AuthProvider** - Fluent configuration builder
+- ✅ **Facades/Auth** - Facade for easy access
+
+#### 2. Authentication Methods (6/6)
+- ✅ **EmailPasswordMethod** - Traditional email/password authentication
+- ✅ **PhoneOTPMethod** - Phone number with OTP verification
+- ✅ **SocialLoginMethod** - OAuth social authentication
+- ✅ **PasswordlessMethod** - Magic link authentication
+- ✅ **WebAuthnMethod** - Passkeys/security keys (FIDO2)
+- ✅ **TwoFactorMethod** - Two-factor authentication layer
+
+#### 3. Services (3/3)
+- ✅ **OTPService** - OTP generation and verification
+- ✅ **TwoFactorService** - 2FA management (TOTP, SMS, Email)
+- ✅ **WebAuthnService** - WebAuthn credential management
+
+#### 4. Two-Factor Providers (3/3)
+- ✅ **TotpProvider** - Time-based OTP with Google2FA
+- ✅ **SmsProvider** - SMS-based verification
+- ✅ **EmailProvider** - Email-based verification
+
+#### 5. Guards & Providers (3/3)
+- ✅ **LaraviltGuard** - Custom guard with multi-method support
+- ✅ **LaraviltAuthProvider** - Enhanced user provider
+- ✅ **CustomAuthProvider** - Extended provider with OTP/magic token support
+
+#### 6. Models (3/3)
+- ✅ **PersonalAccessToken** - Sanctum API tokens
+- ✅ **TwoFactorCode** - OTP code storage
+- ✅ **SocialAccount** - Social login accounts
+
+#### 7. Migrations (5/5)
+- ✅ `add_two_factor_columns_to_users_table`
+- ✅ `create_social_accounts_table`
+- ✅ `create_webauthn_credentials_table`
+- ✅ `create_two_factor_codes_table`
+- ✅ `create_personal_access_tokens_table`
+
+#### 8. Controllers (14/14)
+**Auth Controllers (8/8):**
+- ✅ **LoginController** - Multi-method login handling
+- ✅ **RegisterController** - User registration
+- ✅ **VerifyEmailController** - Email verification
+- ✅ **PasswordResetController** - Password reset flow
+- ✅ **SocialAuthController** - OAuth callbacks
+- ✅ **OTPController** - OTP sending and verification
+- ✅ **WebAuthnController** - WebAuthn registration/authentication
+- ✅ **TwoFactorController** - 2FA setup and verification
+
+**Profile Controllers (6/6):**
+- ✅ **ProfileController** - Profile viewing and editing
+- ✅ **PasswordController** - Password changes
+- ✅ **TwoFactorController** - 2FA management
+- ✅ **SessionsController** - Active session management
+- ✅ **TokensController** - API token management
+- ✅ **DeleteAccountController** - Account deletion with GDPR export
+
+#### 9. Middleware (3/3)
+- ✅ **Authenticate** - Authentication check
+- ✅ **EnsureEmailVerified** - Email verification requirement
+- ✅ **RequireTwoFactor** - 2FA verification requirement
+
+#### 10. Notifications (4/4)
+- ✅ **VerifyEmail** - Email verification notification
+- ✅ **ResetPassword** - Password reset notification
+- ✅ **TwoFactorCode** - 2FA code delivery (Email/SMS)
+- ✅ **LoginNotification** - Login alerts for security
+
+#### 11. Console Commands (2/2)
+- ✅ **InstallAuthCommand** - Interactive installation wizard
+- ✅ **GenerateAuthCommand** - Generate auth configuration
+
+#### 12. Routes (2/2)
+- ✅ **auth.php** - Authentication routes (login, register, verify, reset, 2FA, social, WebAuthn)
+- ✅ **profile.php** - Profile routes (profile, password, 2FA, sessions, tokens, delete)
+
+#### 13. Database Seeders (1/1)
+- ✅ **AuthSeeder** - Test users and sample data
+
+#### 14. Translations (2/2)
+- ✅ **en/auth.php** - 100+ English translation strings
+- ✅ **ar/auth.php** - 100+ Arabic translation strings with RTL support
+
+#### 15. Testing (20 tests passing)
+- ✅ **AuthManagerTest** - 3 tests
+- ✅ **AuthProviderTest** - 13 tests
+- ✅ **OTPServiceTest** - 4 tests
+- ✅ **PHPStan Level 5** - 0 errors (with baseline)
+
+### 📋 Pending Frontend Components
+
+#### Views (14 Blade files needed)
+**Auth Views (7):**
+- ⏳ login.blade.php
+- ⏳ register.blade.php
+- ⏳ verify-email.blade.php
+- ⏳ reset-password.blade.php
+- ⏳ forgot-password.blade.php
+- ⏳ two-factor.blade.php
+- ⏳ social/callback.blade.php
+
+**Profile Views (7):**
+- ⏳ show.blade.php
+- ⏳ edit.blade.php
+- ⏳ password.blade.php
+- ⏳ two-factor.blade.php
+- ⏳ sessions.blade.php
+- ⏳ tokens.blade.php
+- ⏳ delete-account.blade.php
+
+#### JavaScript (7 files needed)
+- ⏳ auth/login.js
+- ⏳ auth/register.js
+- ⏳ auth/two-factor.js
+- ⏳ auth/webauthn.js
+- ⏳ profile/edit.js
+- ⏳ profile/sessions.js
+- ⏳ profile/tokens.js
+
+#### CSS (1 file needed)
+- ⏳ auth.css
+
+#### Feature Tests (13 test files needed)
+- ⏳ Auth feature tests (8 files)
+- ⏳ Profile feature tests (5 files)
+
+## Usage
+
+### Console Commands
+
+```bash
+# Interactive installation
+php artisan laravilt:auth:install
+
+# Generate custom auth configuration
+php artisan laravilt:auth:generate admin-auth --guard=session --model=App\\Models\\Admin
+```
+
+### Authentication Manager
 
 ```php
-$authManager = app('laravilt.auth');
+use Laravilt\Auth\Facades\Auth;
+
+// Create auth provider
+$auth = Auth::make('admin')
+    ->guard('admin')
+    ->model(Admin::class)
+    ->loginMethods(['email', 'otp'])
+    ->twoFactor(['totp', 'email']);
 
 // Check authentication
-if ($authManager->check()) {
-    $user = $authManager->user();
+if (Auth::check()) {
+    $user = Auth::user();
 }
 
-// Use specific guard
-$admin = $authManager->guard('admin')->user();
+// Use specific method
+$authMethod = Auth::method('email');
+if ($authMethod->canHandle($request)) {
+    $user = $authMethod->authenticate($request);
+}
 ```
 
 ### Two-Factor Authentication
 
 ```php
-$twoFactor = app(\Laravilt\Auth\Services\TwoFactorService::class);
+use Laravilt\Auth\Services\TwoFactorService;
 
-// Enable 2FA
+$twoFactor = app(TwoFactorService::class);
+
+// Enable 2FA with TOTP
 $data = $twoFactor->enable($user, 'totp');
 // Returns: ['secret', 'qr_code', 'recovery_codes']
 
 // Verify code
 $isValid = $twoFactor->verify($user, $code, 'totp');
+
+// Disable 2FA
+$twoFactor->disable($user);
+```
+
+### OTP Service
+
+```php
+use Laravilt\Auth\Services\OTPService;
+
+$otp = app(OTPService::class);
+
+// Send OTP
+$otp->send('+1234567890');
+
+// Verify OTP
+if ($otp->verify('+1234567890', '123456')) {
+    // Valid OTP
+}
+```
+
+### WebAuthn
+
+```php
+use Laravilt\Auth\Services\WebAuthnService;
+
+$webAuthn = app(WebAuthnService::class);
+
+// Generate registration options
+$options = $webAuthn->generateRegistrationOptions($user);
+
+// Verify and store credential
+$credential = $webAuthn->verifyAndStoreCredential($user, $publicKeyCredential);
+```
+
+### Social Authentication
+
+```php
+use Laravilt\Auth\Http\Controllers\Auth\SocialAuthController;
+
+// In your controller
+public function redirectToGoogle()
+{
+    return Socialite::driver('google')->redirect();
+}
+
+public function handleGoogleCallback()
+{
+    $user = Socialite::driver('google')->user();
+    // User is authenticated
+}
 ```
 
 ## Configuration
 
-Publish the configuration:
+Publish the configuration file:
 
 ```bash
 php artisan vendor:publish --tag=laravilt-auth-config
 ```
 
+### Key Configuration Options
+
+```php
+return [
+    'guards' => [
+        'web' => ['driver' => 'session', 'provider' => 'users'],
+        'api' => ['driver' => 'token', 'provider' => 'users'],
+    ],
+
+    'methods' => [
+        'email' => true,
+        'phone' => false,
+        'social' => ['google', 'github'],
+        'passwordless' => false,
+        'webauthn' => false,
+    ],
+
+    'features' => [
+        'registration' => true,
+        'email_verification' => true,
+        'password_reset' => true,
+        'two_factor' => ['totp', 'email'],
+        'profile' => true,
+        'sessions' => true,
+        'api_tokens' => true,
+    ],
+
+    'social' => [
+        'google' => [
+            'client_id' => env('GOOGLE_CLIENT_ID'),
+            'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+            'redirect' => '/auth/social/google/callback',
+        ],
+    ],
+
+    'two_factor' => [
+        'default_method' => 'totp',
+        'methods' => ['totp', 'sms', 'email'],
+        'totp' => [
+            'issuer' => env('APP_NAME'),
+            'window' => 1,
+        ],
+    ],
+
+    'otp' => [
+        'length' => 6,
+        'expiry' => 5, // minutes
+    ],
+];
+```
+
+## Publishing Assets
+
+```bash
+# Publish all assets
+php artisan vendor:publish --provider="Laravilt\Auth\AuthServiceProvider"
+
+# Or publish selectively
+php artisan vendor:publish --tag=laravilt-auth-config
+php artisan vendor:publish --tag=laravilt-auth-migrations
+php artisan vendor:publish --tag=laravilt-auth-views
+php artisan vendor:publish --tag=laravilt-auth-assets
+```
+
 ## Testing
 
 ```bash
-composer test          # Run tests
-composer test-coverage # With coverage
-composer analyse       # Static analysis
-composer format        # Code formatting
+# Run tests
+composer test
+
+# Run with coverage
+composer test-coverage
+
+# Run static analysis
+composer analyse
+
+# Format code
+composer format
 ```
 
-## Implementation Details
+### Current Test Results
+```
+Tests:    20 passed (31 assertions)
+Duration: 0.26s
+PHPStan:  Level 5 - 0 errors
+```
 
-<details>
-<summary><strong>✅ Completed Components (Click to expand)</strong></summary>
+## Security Features
 
-**Core Architecture**
-- AuthServiceProvider
-- AuthManager
-- AuthProvider (fluent builder)
-- Contracts: AuthMethod, AuthProviderInterface, TwoFactorProvider
-
-**Authentication Methods**
-- EmailPasswordAuth, PhoneOTPAuth, SocialAuth
-- PasswordlessAuth, WebAuthnAuth, TwoFactorAuth
-
-**Services & Providers**
-- OTPService, TwoFactorService, WebAuthnService
-- TotpProvider, SmsProvider, EmailProvider
-
-**Models & Database**
-- SocialAccount, TwoFactorCode, PersonalAccessToken
-- 4 Migrations (2FA, social, webauthn, codes)
-
-**Configuration & Routing**
-- config/laravilt-auth.php
-- Complete route definitions
-- testbench.yaml
-
-**Translations**
-- English (100+ strings)
-- Arabic (100+ strings with RTL)
-
-**Testing**
-- 20 unit tests, 31 assertions
-- PHPStan Level 5: 0 errors
-- All tests passing
-</details>
-
-<details>
-<summary><strong>📋 Pending Implementation (Click to expand)</strong></summary>
-
-**Controllers (14 files)**
-- Auth: Login, Register, VerifyEmail, PasswordReset, Social, OTP, WebAuthn, TwoFactor
-- Profile: Profile, Password, TwoFactor, Sessions, Tokens, DeleteAccount
-
-**Middleware (3 files)**
-- Authenticate, EnsureEmailVerified, RequireTwoFactor
-
-**Guards & Providers (3 files)**
-- LaraviltGuard, LaraviltAuthProvider, CustomAuthProvider
-
-**Notifications (4 files)**
-- VerifyEmail, ResetPassword, TwoFactorCode, LoginNotification
-
-**Commands (2 files)**
-- InstallAuthCommand, GenerateAuthCommand
-
-**Views (14 Blade + Vue files)**
-- Auth views: login, register, verify-email, reset-password, forgot-password, two-factor, social/callback
-- Profile views: show, edit, password, two-factor, sessions, tokens, delete-account
-
-**JavaScript (7 files)**
-- auth: login.js, register.js, two-factor.js, webauthn.js
-- profile: edit.js, sessions.js, tokens.js
-
-**CSS (1 file)**
-- auth.css
-
-**Additional**
-- Route splitting (auth.php, profile.php)
-- Database seeders
-- Feature tests for all flows
-- Comprehensive documentation
-- Usage examples
-</details>
-
-## Next Steps
-
-To complete full implementation:
-1. Controllers: Implement all auth and profile controllers
-2. Views: Create Blade templates with Vue components
-3. JavaScript: Build interactive components
-4. Middleware: Authentication middleware
-5. Commands: Artisan commands for auth generation
-6. Feature Tests: End-to-end testing
-7. Documentation: Complete usage guides
+- ✅ Multi-factor authentication (TOTP, SMS, Email, WebAuthn)
+- ✅ Session management with device tracking
+- ✅ Login notifications and alerts
+- ✅ API token management with expiration
+- ✅ Account deletion with GDPR-compliant data export
+- ✅ Password confirmation for sensitive operations
+- ✅ Rate limiting on authentication endpoints
+- ✅ CSRF protection
+- ✅ Secure password hashing
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+## Credits
+
+- [Laravilt Team](https://github.com/laravilt)
+- [All Contributors](../../contributors)
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for recent changes.

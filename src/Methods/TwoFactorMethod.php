@@ -7,7 +7,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Laravilt\Auth\Services\TwoFactorService;
 
-class TwoFactorAuth extends BaseAuthMethod
+class TwoFactorMethod extends BaseAuthMethod
 {
     public function __construct(
         protected TwoFactorService $twoFactorService,

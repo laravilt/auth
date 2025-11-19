@@ -7,7 +7,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
-class SocialAuth extends BaseAuthMethod
+class SocialLoginMethod extends BaseAuthMethod
 {
     /**
      * Get the method name.
