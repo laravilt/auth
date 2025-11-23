@@ -36,9 +36,9 @@ class VerifyEmail extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param string $token The verification token
-     * @param string|null $verificationUrl Optional custom verification URL
-     * @param int $expiresIn Expiration time in minutes (default: 60)
+     * @param  string  $token  The verification token
+     * @param  string|null  $verificationUrl  Optional custom verification URL
+     * @param  int  $expiresIn  Expiration time in minutes (default: 60)
      */
     public function __construct(string $token, ?string $verificationUrl = null, int $expiresIn = 60)
     {
@@ -50,7 +50,6 @@ class VerifyEmail extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
      * @return array<int, string>
      */
     public function via(mixed $notifiable): array
@@ -67,9 +66,6 @@ class VerifyEmail extends Notification implements ShouldQueue
 
     /**
      * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail(mixed $notifiable): MailMessage
     {
@@ -95,7 +91,6 @@ class VerifyEmail extends Notification implements ShouldQueue
     /**
      * Get the database representation of the notification.
      *
-     * @param mixed $notifiable
      * @return array<string, mixed>
      */
     public function toDatabase(mixed $notifiable): array
@@ -110,9 +105,6 @@ class VerifyEmail extends Notification implements ShouldQueue
 
     /**
      * Build the verification URL for the notifiable.
-     *
-     * @param mixed $notifiable
-     * @return string
      */
     protected function buildVerificationUrl(mixed $notifiable): string
     {
@@ -125,7 +117,6 @@ class VerifyEmail extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
      * @return array<string, mixed>
      */
     public function toArray(mixed $notifiable): array

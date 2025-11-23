@@ -46,11 +46,11 @@ class ResetPassword extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param string $token The password reset token
-     * @param string|null $resetUrl Optional custom reset URL
-     * @param int $expiresIn Expiration time in minutes (default: 60)
-     * @param string|null $ipAddress The IP address of the requester
-     * @param string|null $userAgent The user agent of the requester
+     * @param  string  $token  The password reset token
+     * @param  string|null  $resetUrl  Optional custom reset URL
+     * @param  int  $expiresIn  Expiration time in minutes (default: 60)
+     * @param  string|null  $ipAddress  The IP address of the requester
+     * @param  string|null  $userAgent  The user agent of the requester
      */
     public function __construct(
         string $token,
@@ -69,26 +69,15 @@ class ResetPassword extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
      * @return array<int, string>
      */
     public function via(mixed $notifiable): array
     {
-        $channels = ['mail'];
-
-        // Add database channel if enabled in config
-        if (config('laravilt-auth.notifications.database', true)) {
-            $channels[] = 'database';
-        }
-
-        return $channels;
+        return ['mail'];
     }
 
     /**
      * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail(mixed $notifiable): MailMessage
     {
@@ -132,7 +121,6 @@ class ResetPassword extends Notification implements ShouldQueue
     /**
      * Get the database representation of the notification.
      *
-     * @param mixed $notifiable
      * @return array<string, mixed>
      */
     public function toDatabase(mixed $notifiable): array
@@ -149,22 +137,27 @@ class ResetPassword extends Notification implements ShouldQueue
 
     /**
      * Build the password reset URL for the notifiable.
-     *
-     * @param mixed $notifiable
-     * @return string
      */
     protected function buildResetUrl(mixed $notifiable): string
     {
-        return url(route('laravilt-auth.password-reset', [
-            'token' => $this->token,
-            'email' => $notifiable->getEmailForPasswordReset(),
-        ], false));
+        // Get the current panel
+        $panel = \Laravilt\Panel\Facades\Panel::getCurrent();
+
+        // Build panel-specific reset URL
+        if ($panel) {
+            $path = $panel->getPath().'/reset-password/'.$this->token;
+            $email = $notifiable->getEmailForPasswordReset();
+
+            return url($path.'?email='.urlencode($email));
+        }
+
+        // Fallback to default route if panel not found
+        return url('/reset-password/'.$this->token.'?email='.urlencode($notifiable->getEmailForPasswordReset()));
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
      * @return array<string, mixed>
      */
     public function toArray(mixed $notifiable): array

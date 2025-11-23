@@ -51,12 +51,12 @@ class TwoFactorCode extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param string $code The 2FA verification code
-     * @param string $method The delivery method (email or sms)
-     * @param int $expiresIn Expiration time in minutes (default: 10)
-     * @param string|null $ipAddress The IP address of the login attempt
-     * @param string|null $device The device information
-     * @param string|null $location The location information
+     * @param  string  $code  The 2FA verification code
+     * @param  string  $method  The delivery method (email or sms)
+     * @param  int  $expiresIn  Expiration time in minutes (default: 10)
+     * @param  string|null  $ipAddress  The IP address of the login attempt
+     * @param  string|null  $device  The device information
+     * @param  string|null  $location  The location information
      */
     public function __construct(
         string $code,
@@ -77,7 +77,6 @@ class TwoFactorCode extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
      * @return array<int, string>
      */
     public function via(mixed $notifiable): array
@@ -103,9 +102,6 @@ class TwoFactorCode extends Notification implements ShouldQueue
 
     /**
      * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail(mixed $notifiable): MailMessage
     {
@@ -116,7 +112,7 @@ class TwoFactorCode extends Notification implements ShouldQueue
             ]))
             ->line(Lang::get('laravilt-auth::notifications.two_factor_code.line1'))
             ->line('') // Empty line for spacing
-            ->line('**' . $this->code . '**') // Bold code
+            ->line('**'.$this->code.'**') // Bold code
             ->line('') // Empty line for spacing
             ->line(Lang::get('laravilt-auth::notifications.two_factor_code.line2', [
                 'minutes' => $this->expiresIn,
@@ -154,9 +150,6 @@ class TwoFactorCode extends Notification implements ShouldQueue
 
     /**
      * Get the SMS representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return string
      */
     public function toSms(mixed $notifiable): string
     {
@@ -171,7 +164,6 @@ class TwoFactorCode extends Notification implements ShouldQueue
     /**
      * Get the database representation of the notification.
      *
-     * @param mixed $notifiable
      * @return array<string, mixed>
      */
     public function toDatabase(mixed $notifiable): array
@@ -191,7 +183,6 @@ class TwoFactorCode extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
      * @return array<string, mixed>
      */
     public function toArray(mixed $notifiable): array

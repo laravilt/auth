@@ -57,13 +57,13 @@ class LoginNotification extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param string $ipAddress The IP address of the login
-     * @param string|null $device The device information
-     * @param string|null $browser The browser information
-     * @param string|null $location The location information
-     * @param string|null $loginAt The timestamp of the login
-     * @param bool $suspicious Whether this is a suspicious login
-     * @param string|null $method The login method used
+     * @param  string  $ipAddress  The IP address of the login
+     * @param  string|null  $device  The device information
+     * @param  string|null  $browser  The browser information
+     * @param  string|null  $location  The location information
+     * @param  string|null  $loginAt  The timestamp of the login
+     * @param  bool  $suspicious  Whether this is a suspicious login
+     * @param  string|null  $method  The login method used
      */
     public function __construct(
         string $ipAddress,
@@ -86,7 +86,6 @@ class LoginNotification extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
      * @return array<int, string>
      */
     public function via(mixed $notifiable): array
@@ -113,9 +112,6 @@ class LoginNotification extends Notification implements ShouldQueue
 
     /**
      * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail(mixed $notifiable): MailMessage
     {
@@ -189,9 +185,6 @@ class LoginNotification extends Notification implements ShouldQueue
 
     /**
      * Get the SMS representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return string
      */
     public function toSms(mixed $notifiable): string
     {
@@ -205,7 +198,6 @@ class LoginNotification extends Notification implements ShouldQueue
     /**
      * Get the database representation of the notification.
      *
-     * @param mixed $notifiable
      * @return array<string, mixed>
      */
     public function toDatabase(mixed $notifiable): array
@@ -231,7 +223,6 @@ class LoginNotification extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
      * @return array<string, mixed>
      */
     public function toArray(mixed $notifiable): array

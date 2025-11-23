@@ -12,11 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('two_factor_enabled')->default(false)->after('password');
-            $table->string('two_factor_method')->nullable()->after('two_factor_enabled');
-            $table->text('two_factor_secret')->nullable()->after('two_factor_method');
-            $table->text('two_factor_recovery_codes')->nullable()->after('two_factor_secret');
-            $table->timestamp('two_factor_confirmed_at')->nullable()->after('two_factor_recovery_codes');
+            if(!Schema::hasColumn('users', 'two_factor_enabled')){
+                $table->boolean('two_factor_enabled')->default(false)->after('password');
+            }
+            if(!Schema::hasColumn('users', 'two_factor_method')){
+                $table->string('two_factor_method')->nullable()->after('two_factor_enabled');
+            }
+            if(!Schema::hasColumn('users', 'two_factor_secret')){
+                $table->text('two_factor_secret')->nullable()->after('two_factor_method');
+            }
+            if(!Schema::hasColumn('users', 'two_factor_recovery_codes')){
+                $table->text('two_factor_recovery_codes')->nullable()->after('two_factor_secret');
+            }
+            if(!Schema::hasColumn('users', 'two_factor_confirmed_at')){
+                $table->timestamp('two_factor_confirmed_at')->nullable()->after('two_factor_recovery_codes');
+            }
         });
     }
 
