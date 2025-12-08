@@ -25,7 +25,7 @@ class Settings extends Cluster
         // Get the current panel from PanelRegistry
         $panel = app(\Laravilt\Panel\PanelRegistry::class)->getCurrent();
 
-        if (!$panel) {
+        if (! $panel) {
             abort(404);
         }
 

@@ -17,35 +17,35 @@ class ListAuthMethodsTool extends Tool
             'features' => ['Email/password login', 'Remember me', 'Logout', 'Session management'],
             'pages' => ['Login'],
             'events' => ['LoginAttempt', 'LoginSuccessful', 'LoginFailed'],
-            'config' => "->login()",
+            'config' => '->login()',
         ],
         'Registration' => [
             'description' => 'User registration with email verification',
             'features' => ['Email/password signup', 'Email verification', 'OTP support', 'Custom fields'],
             'pages' => ['Register'],
             'events' => ['RegistrationAttempt', 'RegistrationCompleted'],
-            'config' => "->registration()",
+            'config' => '->registration()',
         ],
         'OTP Verification' => [
             'description' => 'One-time password verification via email',
             'features' => ['6-digit codes', 'Email delivery', 'Code expiration', 'Rate limiting'],
             'pages' => ['OTP'],
             'events' => ['OtpSent', 'OtpVerified', 'OtpFailed'],
-            'config' => "->emailVerification()->otp()",
+            'config' => '->emailVerification()->otp()',
         ],
         'Password Reset' => [
             'description' => 'Secure password reset flow',
             'features' => ['Email link', 'Token validation', 'Password strength rules', 'Expiration'],
             'pages' => ['ForgotPassword', 'ResetPassword'],
             'events' => ['PasswordResetRequested', 'PasswordReset'],
-            'config' => "->passwordReset()",
+            'config' => '->passwordReset()',
         ],
         'Two-Factor Authentication' => [
             'description' => 'Additional security layer with TOTP/Email',
             'features' => ['TOTP (Google Authenticator)', 'Email codes', 'Recovery codes', 'Multiple methods'],
             'pages' => ['TwoFactorChallenge', 'TwoFactorRecovery'],
             'events' => ['TwoFactorEnabled', 'TwoFactorDisabled', 'TwoFactorChallengeFailed', 'TwoFactorChallengeSuccessful'],
-            'config' => "->twoFactor()",
+            'config' => '->twoFactor()',
         ],
         'Social Authentication' => [
             'description' => 'OAuth login with social providers',
@@ -59,14 +59,14 @@ class ListAuthMethodsTool extends Tool
             'features' => ['Biometric login', 'Hardware keys', 'Platform authenticators', 'Multi-device'],
             'pages' => ['PasskeyRegister', 'PasskeyLogin'],
             'events' => ['PasskeyRegistered', 'PasskeyAuthenticated'],
-            'config' => "->passkeys()",
+            'config' => '->passkeys()',
         ],
         'Magic Links' => [
             'description' => 'Passwordless login via email link',
             'features' => ['One-click login', 'Email delivery', 'Link expiration', 'Single use tokens'],
             'pages' => ['MagicLink'],
             'events' => ['MagicLinkSent'],
-            'config' => "->magicLinks()",
+            'config' => '->magicLinks()',
         ],
     ];
 
@@ -84,8 +84,8 @@ class ListAuthMethodsTool extends Tool
                 $output .= "  ✓ {$feature}\n";
             }
             $output .= "\n";
-            $output .= "Pages: ".implode(', ', $details['pages'])."\n";
-            $output .= "Events: ".implode(', ', $details['events'])."\n\n";
+            $output .= 'Pages: '.implode(', ', $details['pages'])."\n";
+            $output .= 'Events: '.implode(', ', $details['events'])."\n\n";
             $output .= str_repeat('-', 70)."\n\n";
         }
 
