@@ -89,6 +89,7 @@ class ManageApiTokens extends Page
     {
         // Configure based on your application's permissions
         return [
+            '*' => 'Full Access',
             'read' => 'Read',
             'write' => 'Write',
             'delete' => 'Delete',
@@ -191,8 +192,8 @@ class ManageApiTokens extends Page
 
         // Create token using Laravel Sanctum
         $abilities = $request->input('abilities');
-        // Ensure abilities is an array (convert null to empty array)
-        $abilities = is_array($abilities) ? $abilities : [];
+        // Ensure abilities is an array, default to ['*'] (full access) if empty
+        $abilities = is_array($abilities) && ! empty($abilities) ? $abilities : ['*'];
 
         $token = $user->createToken(
             $request->input('name'),
@@ -229,5 +230,26 @@ class ManageApiTokens extends Page
         $user->tokens()->delete();
 
         return back()->with('status', 'api-tokens-revoked');
+    }
+
+    /**
+     * Delete a specific API token.
+     */
+    public function destroy(Request $request, int $token)
+    {
+        $panel = $this->getPanel();
+        $guard = $panel->getAuthGuard();
+        $user = Auth::guard($guard)->user();
+
+        // Find and delete the token belonging to this user
+        $tokenModel = $user->tokens()->find($token);
+
+        if (! $tokenModel) {
+            return back()->withErrors(['token' => 'Token not found.']);
+        }
+
+        $tokenModel->delete();
+
+        return back()->with('status', 'api-token-revoked');
     }
 }
