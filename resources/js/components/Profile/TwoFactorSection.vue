@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import Modal from '@laravilt/support/components/Modal.vue';
 import LaraviltForm from '@laravilt/forms/components/Form.vue';
-import ActionButton from '../../../../../actions/resources/js/components/ActionButton.vue';
+import ActionButton from '@laravilt/actions/components/ActionButton.vue';
 import { useTwoFactor } from '../../composables/useTwoFactor';
 import { useLocalization } from '@/composables/useLocalization';
 

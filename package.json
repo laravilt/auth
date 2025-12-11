@@ -64,8 +64,9 @@
     },
     "peerDependencies": {
         "@inertiajs/vue3": "^2.0.0",
-        "@laravilt/forms": "^1.0.0",
         "@laravilt/actions": "^1.0.0",
+        "@laravilt/forms": "^1.0.0",
+        "@laravilt/support": "^1.0.0",
         "vue": "^3.3.0"
     },
     "devDependencies": {
