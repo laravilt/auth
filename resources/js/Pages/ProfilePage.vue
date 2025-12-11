@@ -3,16 +3,16 @@ import { Head } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import PanelLayout from '@laravilt/panel/layouts/PanelLayout.vue';
 import { Skeleton } from '@/components/ui/skeleton';
-import ProfileInformationSection from '../components/Profile/ProfileInformationSection.vue';
-import UpdatePasswordSection from '../components/Profile/UpdatePasswordSection.vue';
-import TwoFactorSection from '../components/Profile/TwoFactorSection.vue';
-import SessionManagementSection from '../components/Profile/SessionManagementSection.vue';
-import ApiTokensSection from '../components/Profile/ApiTokensSection.vue';
-import PasskeysSection from '../components/Profile/PasskeysSection.vue';
-import MagicLinksSection from '../components/Profile/MagicLinksSection.vue';
-import ConnectedAccountsSection from '../components/Profile/ConnectedAccountsSection.vue';
-import DeleteAccountSection from '../components/Profile/DeleteAccountSection.vue';
-import { useLocalization } from '@/composables/useLocalization';
+import ProfileInformationSection from '@laravilt/auth/components/Profile/ProfileInformationSection.vue';
+import UpdatePasswordSection from '@laravilt/auth/components/Profile/UpdatePasswordSection.vue';
+import TwoFactorSection from '@laravilt/auth/components/Profile/TwoFactorSection.vue';
+import SessionManagementSection from '@laravilt/auth/components/Profile/SessionManagementSection.vue';
+import ApiTokensSection from '@laravilt/auth/components/Profile/ApiTokensSection.vue';
+import PasskeysSection from '@laravilt/auth/components/Profile/PasskeysSection.vue';
+import MagicLinksSection from '@laravilt/auth/components/Profile/MagicLinksSection.vue';
+import ConnectedAccountsSection from '@laravilt/auth/components/Profile/ConnectedAccountsSection.vue';
+import DeleteAccountSection from '@laravilt/auth/components/Profile/DeleteAccountSection.vue';
+import { useLocalization } from '@laravilt/support/composables';
 
 const { trans } = useLocalization();
 

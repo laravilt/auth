@@ -66,9 +66,14 @@ class AuthServiceProvider extends ServiceProvider
                 __DIR__.'/../dist' => public_path('vendor/laravilt/auth'),
             ], 'laravilt-auth-assets');
 
-            // Publish views
+            // Publish Blade views
             $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views/vendor/laravilt-auth'),
+            ], 'laravilt-auth-blade-views');
+
+            // Publish Vue pages
+            $this->publishes([
+                __DIR__.'/../resources/js/Pages' => resource_path('js/pages/laravilt/auth'),
             ], 'laravilt-auth-views');
 
             // Publish migrations
