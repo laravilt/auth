@@ -31,7 +31,7 @@
         "laravilt/panel": "^1.0",
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.0",
-        "laragear/webauthn": "^3.0",
+        "laragear/webauthn": "^4.0",
         "laravel/fortify": "^1.30",
         "socialiteproviders/atlassian": "^4.0",
         "socialiteproviders/discord": "^4.2",
