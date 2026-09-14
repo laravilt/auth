@@ -13,6 +13,7 @@ use Laravilt\Auth\Methods\PhoneOTPMethod;
 use Laravilt\Auth\Methods\SocialLoginMethod;
 use Laravilt\Auth\Methods\TwoFactorMethod;
 use Laravilt\Auth\Methods\WebAuthnMethod;
+use Laravilt\Support\Frontend;
 use SocialiteProviders\Atlassian\AtlassianExtendSocialite;
 use SocialiteProviders\Discord\DiscordExtendSocialite;
 use SocialiteProviders\Manager\SocialiteWasCalled;
@@ -72,9 +73,9 @@ class AuthServiceProvider extends ServiceProvider
                 __DIR__.'/../resources/views' => resource_path('views/vendor/laravilt-auth'),
             ], 'laravilt-auth-blade-views');
 
-            // Publish Vue pages
+            // Publish frontend pages for the application's stack (Vue or React)
             $this->publishes([
-                __DIR__.'/../resources/js/Pages' => resource_path('js/pages/laravilt/auth'),
+                __DIR__.'/../resources/'.Frontend::resourceDirectory().'/Pages' => resource_path('js/pages/laravilt/auth'),
             ], 'laravilt-auth-views');
 
             // Publish migrations
