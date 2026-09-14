@@ -2,6 +2,7 @@
 
 namespace Laravilt\Auth\Pages;
 
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Laravilt\Actions\Action;
@@ -86,7 +87,7 @@ class ForgotPassword extends Page
             $panel = $this->getPanel();
 
             // Temporarily set the reset password URL to use the panel route
-            \Illuminate\Auth\Notifications\ResetPassword::createUrlUsing(function ($user, $token) use ($panel) {
+            ResetPassword::createUrlUsing(function ($user, $token) use ($panel) {
                 return route($panel->getId().'.password.reset', ['token' => $token, 'email' => $user->email]);
             });
 
@@ -96,7 +97,7 @@ class ForgotPassword extends Page
             );
 
             // Reset the URL callback to avoid affecting other password resets
-            \Illuminate\Auth\Notifications\ResetPassword::createUrlUsing(null);
+            ResetPassword::createUrlUsing(null);
 
             \Log::info('Password reset link status', [
                 'status' => $status,

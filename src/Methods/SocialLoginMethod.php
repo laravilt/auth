@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SocialLoginMethod extends BaseAuthMethod
 {
@@ -91,7 +92,7 @@ class SocialLoginMethod extends BaseAuthMethod
     /**
      * Redirect to social provider.
      */
-    public function redirect(string $provider): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function redirect(string $provider): RedirectResponse
     {
         return Socialite::driver($provider)->redirect();
     }

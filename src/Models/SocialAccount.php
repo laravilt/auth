@@ -2,6 +2,7 @@
 
 namespace Laravilt\Auth\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -31,7 +32,7 @@ class SocialAccount extends Model
         // Get the user model from the default auth provider
         $defaultGuard = config('auth.defaults.guard', 'web');
         $provider = config("auth.guards.{$defaultGuard}.provider", 'users');
-        $userModel = config("auth.providers.{$provider}.model", \App\Models\User::class);
+        $userModel = config("auth.providers.{$provider}.model", User::class);
 
         return $this->belongsTo($userModel);
     }

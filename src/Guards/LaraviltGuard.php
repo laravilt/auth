@@ -2,6 +2,8 @@
 
 namespace Laravilt\Auth\Guards;
 
+use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\GuardHelpers;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\Auth\Guard;
@@ -106,7 +108,7 @@ class LaraviltGuard extends SessionGuard implements StatefulGuard
     {
         if (isset($this->events)) {
             $this->events->dispatch(
-                new \Illuminate\Auth\Events\Authenticated($this->name, $user)
+                new Authenticated($this->name, $user)
             );
         }
     }
@@ -118,7 +120,7 @@ class LaraviltGuard extends SessionGuard implements StatefulGuard
     {
         if (isset($this->events)) {
             $this->events->dispatch(
-                new \Illuminate\Auth\Events\Failed($this->name, $user, $credentials)
+                new Failed($this->name, $user, $credentials)
             );
         }
     }

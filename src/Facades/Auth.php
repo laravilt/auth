@@ -3,6 +3,7 @@
 namespace Laravilt\Auth\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Laravilt\Auth\AuthManager;
 
 /**
  * @method static \Laravilt\Auth\AuthProvider make(string $name = 'default')
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void logout()
  * @method static \Laravilt\Auth\AuthProvider generate(string $name, array $config)
  *
- * @see \Laravilt\Auth\AuthManager
+ * @see AuthManager
  */
 class Auth extends Facade
 {

@@ -5,6 +5,7 @@ namespace Laravilt\Auth\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravilt\Panel\PanelRegistry;
 use Symfony\Component\HttpFoundation\Response;
 
 class RequireTwoFactorAuthentication
@@ -22,7 +23,7 @@ class RequireTwoFactorAuthentication
         }
 
         $user = $request->user();
-        $panel = app(\Laravilt\Panel\PanelRegistry::class)->getCurrent();
+        $panel = app(PanelRegistry::class)->getCurrent();
 
         // Skip 2FA check if the current panel doesn't have 2FA enabled
         if (! $panel || ! $panel->hasTwoFactor()) {

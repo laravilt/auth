@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Laravilt\Actions\Action;
 use Laravilt\Auth\Clusters\Settings;
+use Laravilt\Forms\Components\Checkbox;
+use Laravilt\Forms\Components\TextInput;
 use Laravilt\Panel\Enums\PageLayout;
 use Laravilt\Panel\Pages\Page;
 
@@ -108,7 +111,7 @@ class ManageApiTokens extends Page
     {
         $availableAbilities = $this->getAvailableAbilities();
 
-        return \Laravilt\Actions\Action::make('create')
+        return Action::make('create')
             ->label(__('laravilt-auth::auth.profile.api_tokens.create_new'))
             ->modalHeading(__('laravilt-auth::auth.profile.api_tokens.create_new'))
             ->modalDescription(__('laravilt-auth::auth.profile.api_tokens.third_party_info'))
@@ -116,13 +119,13 @@ class ManageApiTokens extends Page
             ->preserveState(false)
             ->preserveScroll(false)
             ->schema([
-                \Laravilt\Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->label(__('laravilt-auth::auth.profile.api_tokens.token_name'))
                     ->required()
                     ->placeholder(__('laravilt-auth::auth.profile.api_tokens.token_name_placeholder'))
                     ->helperText(__('laravilt-auth::auth.profile.api_tokens.token_name_hint')),
 
-                \Laravilt\Forms\Components\Checkbox::make('abilities')
+                Checkbox::make('abilities')
                     ->label(__('laravilt-auth::auth.profile.api_tokens.permissions'))
                     ->options($availableAbilities)
                     ->helperText(__('laravilt-auth::auth.profile.api_tokens.permissions_hint')),
@@ -138,7 +141,7 @@ class ManageApiTokens extends Page
      */
     protected function getRevokeAllAction(): array
     {
-        return \Laravilt\Actions\Action::make('revoke-all')
+        return Action::make('revoke-all')
             ->label(__('laravilt-auth::auth.profile.api_tokens.revoke_all'))
             ->color('danger')
             ->modalHeading(__('laravilt-auth::auth.profile.api_tokens.revoke_all'))
@@ -148,7 +151,7 @@ class ManageApiTokens extends Page
             ->preserveScroll(false)
             ->preserveState(false)
             ->schema([
-                \Laravilt\Forms\Components\TextInput::make('password')
+                TextInput::make('password')
                     ->label(__('laravilt-auth::auth.fields.password'))
                     ->type('password')
                     ->required()
@@ -166,7 +169,7 @@ class ManageApiTokens extends Page
      */
     protected function getDeleteTokenAction(int $tokenId): array
     {
-        return \Laravilt\Actions\Action::make('delete-'.$tokenId)
+        return Action::make('delete-'.$tokenId)
             ->label(__('laravilt-auth::auth.profile.api_tokens.revoke'))
             ->icon('trash-2')
             ->color('danger')

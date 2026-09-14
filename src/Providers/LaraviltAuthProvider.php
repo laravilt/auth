@@ -5,6 +5,8 @@ namespace Laravilt\Auth\Providers;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class LaraviltAuthProvider implements UserProvider
 {
@@ -178,8 +180,8 @@ class LaraviltAuthProvider implements UserProvider
     /**
      * Get a new query builder for the model instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|null  $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Model|null  $model
+     * @return Builder
      */
     protected function newModelQuery($model = null)
     {

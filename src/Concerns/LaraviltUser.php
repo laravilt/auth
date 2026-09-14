@@ -4,11 +4,13 @@ namespace Laravilt\Auth\Concerns;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravilt\Auth\Models\SocialAccount;
+use Laravilt\Auth\Models\WebauthnCredential;
 
 /**
  * Trait LaraviltUser
@@ -24,7 +26,7 @@ use Laravilt\Auth\Models\SocialAccount;
  * @property string|null $two_factor_method
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
- * @property \Illuminate\Support\Carbon|null $two_factor_confirmed_at
+ * @property Carbon|null $two_factor_confirmed_at
  */
 trait LaraviltUser
 {
@@ -100,7 +102,7 @@ trait LaraviltUser
     public function webauthnCredentials(): MorphMany
     {
         return $this->morphMany(
-            config('laravilt-auth.models.webauthn_credential', \Laravilt\Auth\Models\WebauthnCredential::class),
+            config('laravilt-auth.models.webauthn_credential', WebauthnCredential::class),
             'authenticatable'
         );
     }

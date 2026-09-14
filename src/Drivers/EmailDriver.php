@@ -3,6 +3,7 @@
 namespace Laravilt\Auth\Drivers;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Laravilt\Auth\Contracts\TwoFactorDriver;
@@ -96,7 +97,7 @@ class EmailDriver implements TwoFactorDriver
     /**
      * Get cache key for user.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     protected function getCacheKey(Authenticatable $user): string
     {

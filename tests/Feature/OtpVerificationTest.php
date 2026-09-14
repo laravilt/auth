@@ -2,6 +2,7 @@
 
 namespace Laravilt\Auth\Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -132,7 +133,7 @@ class OtpVerificationTest extends TestCase
 
     protected function createUser(array $attributes = [])
     {
-        return \App\Models\User::create(array_merge([
+        return User::create(array_merge([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => bcrypt('password'),

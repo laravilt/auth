@@ -7,6 +7,7 @@ use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Laravilt\Auth\Contracts\TwoFactorProvider;
 use PragmaRX\Google2FA\Google2FA;
 
@@ -27,7 +28,7 @@ class TotpProvider implements TwoFactorProvider
     /**
      * Generate 2FA for the user.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function generate(Authenticatable $user): array
     {
@@ -56,7 +57,7 @@ class TotpProvider implements TwoFactorProvider
     /**
      * Verify 2FA code.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function verify(Authenticatable $user, string $code): bool
     {
@@ -72,7 +73,7 @@ class TotpProvider implements TwoFactorProvider
     /**
      * Disable 2FA for the user.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function disable(Authenticatable $user): bool
     {

@@ -4,6 +4,7 @@ namespace Laravilt\Auth;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Socialite\Facades\Socialite;
 use Laravilt\Auth\Console\Commands\GenerateAuthCommand;
 use Laravilt\Auth\Console\Commands\InstallAuthCommand;
 use Laravilt\Auth\Methods\EmailPasswordMethod;
@@ -119,7 +120,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected function registerSocialiteProviders(): void
     {
-        if (! class_exists(\Laravel\Socialite\Facades\Socialite::class)) {
+        if (! class_exists(Socialite::class)) {
             return;
         }
 

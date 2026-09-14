@@ -3,6 +3,7 @@
 namespace Laravilt\Auth\Contracts;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
 interface TwoFactorDriver
 {
@@ -24,7 +25,7 @@ interface TwoFactorDriver
     /**
      * Enable two-factor authentication for the user.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      * @return array Returns setup data (QR code, secret, etc.)
      */
     public function enable(Authenticatable $user): array;
@@ -32,14 +33,14 @@ interface TwoFactorDriver
     /**
      * Verify the two-factor code.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function verify(Authenticatable $user, string $code): bool;
 
     /**
      * Send the two-factor code (for email/SMS drivers).
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function send(Authenticatable $user): bool;
 

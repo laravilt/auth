@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Laravilt\Auth\Events\MagicLinkSent;
 use Laravilt\Auth\Events\MagicLinkVerified;
+use Laravilt\Auth\Mail\MagicLinkMail;
 
 class MagicLinkController extends Controller
 {
@@ -60,7 +61,7 @@ class MagicLinkController extends Controller
         $expiresAt = now()->addMinutes(15);
 
         // Send the magic link via email
-        Mail::to($user->email)->send(new \Laravilt\Auth\Mail\MagicLinkMail($url));
+        Mail::to($user->email)->send(new MagicLinkMail($url));
 
         // Dispatch magic link sent event
         MagicLinkSent::dispatch(

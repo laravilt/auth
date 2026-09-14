@@ -3,6 +3,7 @@
 namespace Laravilt\Auth\TwoFactor;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Laravilt\Auth\Contracts\TwoFactorProvider;
 use Laravilt\Auth\Services\OTPService;
 
@@ -23,7 +24,7 @@ class SmsProvider implements TwoFactorProvider
     /**
      * Generate 2FA for the user.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function generate(Authenticatable $user): array
     {
@@ -43,7 +44,7 @@ class SmsProvider implements TwoFactorProvider
     /**
      * Verify 2FA code.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function verify(Authenticatable $user, string $code): bool
     {
@@ -59,7 +60,7 @@ class SmsProvider implements TwoFactorProvider
     /**
      * Disable 2FA for the user.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function disable(Authenticatable $user): bool
     {

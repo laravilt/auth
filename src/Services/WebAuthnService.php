@@ -3,13 +3,14 @@
 namespace Laravilt\Auth\Services;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
 class WebAuthnService
 {
     /**
      * Generate registration options for WebAuthn.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function generateRegistrationOptions(Authenticatable $user): array
     {

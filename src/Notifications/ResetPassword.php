@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
+use Laravilt\Panel\Facades\Panel;
 
 /**
  * Password Reset Notification
@@ -141,7 +142,7 @@ class ResetPassword extends Notification implements ShouldQueue
     protected function buildResetUrl(mixed $notifiable): string
     {
         // Get the current panel
-        $panel = \Laravilt\Panel\Facades\Panel::getCurrent();
+        $panel = Panel::getCurrent();
 
         // Build panel-specific reset URL
         if ($panel) {

@@ -3,6 +3,7 @@
 namespace Laravilt\Auth\Services;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Laravilt\Auth\Contracts\TwoFactorDriver;
@@ -38,7 +39,7 @@ class TwoFactorService
     /**
      * Enable 2FA for user.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function enable(Authenticatable $user, string $method = 'totp'): array
     {
@@ -98,7 +99,7 @@ class TwoFactorService
     /**
      * Confirm 2FA setup and generate recovery codes.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function confirm(Authenticatable $user): array
     {
@@ -115,7 +116,7 @@ class TwoFactorService
     /**
      * Verify recovery code.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     protected function verifyRecoveryCode(Authenticatable $user, string $code): bool
     {
@@ -152,7 +153,7 @@ class TwoFactorService
     /**
      * Send 2FA code.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function sendCode(Authenticatable $user, string $method): bool
     {

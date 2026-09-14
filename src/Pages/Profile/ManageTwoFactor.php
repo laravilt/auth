@@ -4,9 +4,14 @@ namespace Laravilt\Auth\Pages\Profile;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
+use Laravilt\Actions\Action;
 use Laravilt\Auth\Clusters\Settings;
 use Laravilt\Auth\Events\TwoFactorDisabled;
 use Laravilt\Auth\Events\TwoFactorEnabled;
+use Laravilt\Auth\Services\TwoFactorService;
+use Laravilt\Forms\Components\PinInput;
+use Laravilt\Forms\Components\Radio;
 use Laravilt\Panel\Enums\PageLayout;
 use Laravilt\Panel\Pages\Page;
 
@@ -182,7 +187,7 @@ class ManageTwoFactor extends Page
         ]);
 
         // Generate recovery codes
-        $service = app(\Laravilt\Auth\Services\TwoFactorService::class);
+        $service = app(TwoFactorService::class);
         $recoveryCodes = $service->generateRecoveryCodes($user);
 
         // Dispatch 2FA enabled event
@@ -258,7 +263,7 @@ class ManageTwoFactor extends Page
         $user = Auth::guard($guard)->user();
 
         // Regenerate recovery codes using Fortify action
-        app(\Laravel\Fortify\Actions\GenerateNewRecoveryCodes::class)($user);
+        app(GenerateNewRecoveryCodes::class)($user);
 
         $recoveryCodes = json_decode(decrypt($user->fresh()->two_factor_recovery_codes), true);
 
@@ -268,11 +273,11 @@ class ManageTwoFactor extends Page
         ]);
     }
 
-    protected function getEnableAction(): \Laravilt\Actions\Action
+    protected function getEnableAction(): Action
     {
         $panelId = $this->getPanel()->getId();
 
-        return \Laravilt\Actions\Action::make('enable')
+        return Action::make('enable')
             ->label(__('laravilt-auth::auth.profile.two_factor.enable'))
             ->url(route("{$panelId}.two-factor.enable"))
             ->preserveScroll(false)
@@ -281,9 +286,9 @@ class ManageTwoFactor extends Page
             ->requiresConfirmation(false);
     }
 
-    protected function getConfirmCodeInput(): \Laravilt\Forms\Components\PinInput
+    protected function getConfirmCodeInput(): PinInput
     {
-        return \Laravilt\Forms\Components\PinInput::make('code')
+        return PinInput::make('code')
             ->label(__('laravilt-auth::auth.profile.two_factor.verify_code'))
             ->required()
             ->length(6)
@@ -291,11 +296,11 @@ class ManageTwoFactor extends Page
             ->otp();
     }
 
-    protected function getConfirmAction(): \Laravilt\Actions\Action
+    protected function getConfirmAction(): Action
     {
         $panelId = $this->getPanel()->getId();
 
-        return \Laravilt\Actions\Action::make('confirm')
+        return Action::make('confirm')
             ->preserveScroll(false)
             ->preserveState(false)
             ->label(__('laravilt-auth::auth.profile.two_factor.confirm_enable'))
@@ -304,11 +309,11 @@ class ManageTwoFactor extends Page
             ->requiresConfirmation(false);
     }
 
-    protected function getCancelAction(): \Laravilt\Actions\Action
+    protected function getCancelAction(): Action
     {
         $panelId = $this->getPanel()->getId();
 
-        return \Laravilt\Actions\Action::make('cancel')
+        return Action::make('cancel')
             ->preserveScroll(false)
             ->preserveState(false)
             ->label(__('laravilt-auth::auth.common.cancel'))
@@ -317,11 +322,11 @@ class ManageTwoFactor extends Page
             ->requiresConfirmation(false);
     }
 
-    protected function getDisableAction(): \Laravilt\Actions\Action
+    protected function getDisableAction(): Action
     {
         $panelId = $this->getPanel()->getId();
 
-        return \Laravilt\Actions\Action::make('disable')
+        return Action::make('disable')
             ->label(__('laravilt-auth::auth.profile.two_factor.disable'))
             ->url(route("{$panelId}.two-factor.disable"))
             ->preserveScroll(false)
@@ -333,7 +338,7 @@ class ManageTwoFactor extends Page
             ->modalDescription(__('laravilt-auth::auth.profile.two_factor.disable_warning'));
     }
 
-    protected function getMethodSelectionInput(): \Laravilt\Forms\Components\Radio
+    protected function getMethodSelectionInput(): Radio
     {
         $panel = $this->getPanel();
         $providers = $panel->getTwoFactorProviders();
@@ -350,7 +355,7 @@ class ManageTwoFactor extends Page
         // Default to first available provider
         $defaultMethod = $providers[0]['name'] ?? 'totp';
 
-        return \Laravilt\Forms\Components\Radio::make('method')
+        return Radio::make('method')
             ->label(__('laravilt-auth::auth.profile.two_factor.select_method'))
             ->default($defaultMethod)
             ->options($options)

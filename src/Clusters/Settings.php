@@ -4,6 +4,7 @@ namespace Laravilt\Auth\Clusters;
 
 use Illuminate\Http\Request;
 use Laravilt\Panel\Cluster;
+use Laravilt\Panel\PanelRegistry;
 
 class Settings extends Cluster
 {
@@ -38,7 +39,7 @@ class Settings extends Cluster
     public function create(Request $request, ...$parameters)
     {
         // Get the current panel from PanelRegistry
-        $panel = app(\Laravilt\Panel\PanelRegistry::class)->getCurrent();
+        $panel = app(PanelRegistry::class)->getCurrent();
 
         if (! $panel) {
             abort(404);

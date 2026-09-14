@@ -45,7 +45,7 @@ class TwoFactorChallenge extends Page
      * Handle the GET request for the 2FA challenge page.
      * Redirect to login if no valid session exists.
      */
-    public function create(\Illuminate\Http\Request $request, ...$parameters)
+    public function create(Request $request, ...$parameters)
     {
         $panel = $this->getPanel();
 

@@ -2,6 +2,7 @@
 
 namespace Laravilt\Auth\Pages;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -119,7 +120,7 @@ class Register extends Page
         // Get the user model from the auth guard configuration
         $guard = $panel->getAuthGuard();
         $provider = config("auth.guards.{$guard}.provider");
-        $userModel = config("auth.providers.{$provider}.model", \App\Models\User::class);
+        $userModel = config("auth.providers.{$provider}.model", User::class);
 
         // Create the user
         $user = $userModel::create([

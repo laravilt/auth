@@ -2,6 +2,7 @@
 
 namespace Laravilt\Auth\Pages;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -137,7 +138,7 @@ class OTP extends Page
         if (! $otpRecord) {
             // Get the user model to dispatch event with user
             $provider = config("auth.guards.{$guard}.provider");
-            $userModel = config("auth.providers.{$provider}.model", \App\Models\User::class);
+            $userModel = config("auth.providers.{$provider}.model", User::class);
             $user = $userModel::find($userId);
 
             // Dispatch OTP failed event (invalid or expired code)
@@ -161,7 +162,7 @@ class OTP extends Page
 
         // Get the user model
         $provider = config("auth.guards.{$guard}.provider");
-        $userModel = config("auth.providers.{$provider}.model", \App\Models\User::class);
+        $userModel = config("auth.providers.{$provider}.model", User::class);
         $user = $userModel::find($userId);
 
         if (! $user) {
@@ -212,7 +213,7 @@ class OTP extends Page
 
         // Get the user model
         $provider = config("auth.guards.{$guard}.provider");
-        $userModel = config("auth.providers.{$provider}.model", \App\Models\User::class);
+        $userModel = config("auth.providers.{$provider}.model", User::class);
         $user = $userModel::find($userId);
 
         if (! $user) {

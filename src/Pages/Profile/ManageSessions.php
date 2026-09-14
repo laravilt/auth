@@ -2,8 +2,10 @@
 
 namespace Laravilt\Auth\Pages\Profile;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Jenssegers\Agent\Agent;
 use Laravilt\Auth\Clusters\Settings;
 use Laravilt\Panel\Enums\PageLayout;
 use Laravilt\Panel\Pages\Page;
@@ -71,7 +73,7 @@ class ManageSessions extends Page
                 'ip_address' => $session->ip_address,
                 'user_agent' => $session->user_agent,
                 'last_activity' => $session->last_activity,
-                'last_activity_human' => \Carbon\Carbon::createFromTimestamp($session->last_activity)->diffForHumans(),
+                'last_activity_human' => Carbon::createFromTimestamp($session->last_activity)->diffForHumans(),
                 'is_current' => $session->id === $request->session()->getId(),
                 'device' => [
                     'browser' => $agent->browser(),
@@ -92,9 +94,9 @@ class ManageSessions extends Page
     /**
      * Create a new agent instance from the given session.
      */
-    protected function createAgent($session): \Jenssegers\Agent\Agent
+    protected function createAgent($session): Agent
     {
-        return tap(new \Jenssegers\Agent\Agent, function ($agent) use ($session) {
+        return tap(new Agent, function ($agent) use ($session) {
             $agent->setUserAgent($session->user_agent);
         });
     }

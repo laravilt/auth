@@ -2,6 +2,7 @@
 
 namespace Laravilt\Auth\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
@@ -56,7 +57,7 @@ class SocialAuthController
             // Get the user model from the auth guard configuration
             $guard = $panel->getAuthGuard();
             $authProvider = config("auth.guards.{$guard}.provider");
-            $userModel = config("auth.providers.{$authProvider}.model", \App\Models\User::class);
+            $userModel = config("auth.providers.{$authProvider}.model", User::class);
 
             // Check if this social account already exists
             $socialAccount = SocialAccount::where('provider', $provider)

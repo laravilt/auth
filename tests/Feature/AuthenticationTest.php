@@ -2,6 +2,7 @@
 
 namespace Laravilt\Auth\Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,7 @@ class AuthenticationTest extends TestCase
 
     public function test_user_can_be_created()
     {
-        $user = \App\Models\User::create([
+        $user = User::create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => Hash::make('password'),
@@ -32,7 +33,7 @@ class AuthenticationTest extends TestCase
 
     public function test_user_password_is_hashed()
     {
-        $user = \App\Models\User::create([
+        $user = User::create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => Hash::make('password'),
@@ -107,7 +108,7 @@ class AuthenticationTest extends TestCase
 
     protected function createUser(array $attributes = [])
     {
-        return \App\Models\User::create(array_merge([
+        return User::create(array_merge([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => bcrypt('password'),

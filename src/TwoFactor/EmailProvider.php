@@ -3,6 +3,7 @@
 namespace Laravilt\Auth\TwoFactor;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Laravilt\Auth\Contracts\TwoFactorProvider;
 
@@ -19,7 +20,7 @@ class EmailProvider implements TwoFactorProvider
     /**
      * Generate 2FA for the user.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function generate(Authenticatable $user): array
     {
@@ -38,7 +39,7 @@ class EmailProvider implements TwoFactorProvider
     /**
      * Verify 2FA code.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function verify(Authenticatable $user, string $code): bool
     {
@@ -56,7 +57,7 @@ class EmailProvider implements TwoFactorProvider
     /**
      * Disable 2FA for the user.
      *
-     * @param  Authenticatable&\Illuminate\Database\Eloquent\Model  $user
+     * @param  Authenticatable&Model  $user
      */
     public function disable(Authenticatable $user): bool
     {
