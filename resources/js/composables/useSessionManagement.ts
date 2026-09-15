@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
+import { usePanelBase } from './usePanelBase';
 
 export interface Session {
     id: string;
@@ -15,6 +16,7 @@ export interface Session {
 }
 
 export function useSessionManagement(panelId: string = 'user') {
+    const base = usePanelBase(panelId);
     const loading = ref(false);
     const error = ref<string | null>(null);
     const sessions = ref<Session[]>([]);
@@ -24,7 +26,7 @@ export function useSessionManagement(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/sessions`, {
+            const response = await fetch(`${base}/profile/sessions`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,7 +55,7 @@ export function useSessionManagement(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/sessions/${sessionId}`, {
+            const response = await fetch(`${base}/profile/sessions/${sessionId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +87,7 @@ export function useSessionManagement(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/sessions/others`, {
+            const response = await fetch(`${base}/profile/sessions/others`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

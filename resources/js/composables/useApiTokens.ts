@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { usePanelBase } from './usePanelBase';
 
 export interface ApiToken {
     id: number;
@@ -10,6 +11,7 @@ export interface ApiToken {
 }
 
 export function useApiTokens(panelId: string = 'user') {
+    const base = usePanelBase(panelId);
     const loading = ref(false);
     const error = ref<string | null>(null);
     const tokens = ref<ApiToken[]>([]);
@@ -20,7 +22,7 @@ export function useApiTokens(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/api-tokens`, {
+            const response = await fetch(`${base}/profile/api-tokens`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -49,7 +51,7 @@ export function useApiTokens(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/api-tokens`, {
+            const response = await fetch(`${base}/profile/api-tokens`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,7 +83,7 @@ export function useApiTokens(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/api-tokens/${tokenId}`, {
+            const response = await fetch(`${base}/profile/api-tokens/${tokenId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,7 +118,7 @@ export function useApiTokens(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/api-tokens/${tokenId}`, {
+            const response = await fetch(`${base}/profile/api-tokens/${tokenId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

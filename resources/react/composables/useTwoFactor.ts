@@ -1,6 +1,7 @@
 import { router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { useLatest } from '@laravilt/support/composables/hooks';
+import { usePanelBase } from './usePanelBase';
 
 export interface TwoFactorData {
     secret?: string;
@@ -9,6 +10,7 @@ export interface TwoFactorData {
 }
 
 export function useTwoFactor(panelId: string = 'user') {
+    const base = usePanelBase(panelId);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [twoFactorData, setTwoFactorData] = useState<TwoFactorData | null>(null);
@@ -29,7 +31,7 @@ export function useTwoFactor(panelId: string = 'user') {
                 throw new Error('CSRF token not found');
             }
 
-            const response = await fetch(`/${panelId}/profile/two-factor/enable`, {
+            const response = await fetch(`${base}/profile/two-factor/enable`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,7 +77,7 @@ export function useTwoFactor(panelId: string = 'user') {
                 throw new Error('CSRF token not found');
             }
 
-            const response = await fetch(`/${panelId}/profile/two-factor/confirm`, {
+            const response = await fetch(`${base}/profile/two-factor/confirm`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -136,7 +138,7 @@ export function useTwoFactor(panelId: string = 'user') {
                 throw new Error('CSRF token not found');
             }
 
-            const response = await fetch(`/${panelId}/profile/two-factor/disable`, {
+            const response = await fetch(`${base}/profile/two-factor/disable`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -185,7 +187,7 @@ export function useTwoFactor(panelId: string = 'user') {
                 throw new Error('CSRF token not found');
             }
 
-            const response = await fetch(`/${panelId}/profile/two-factor/recovery-codes`, {
+            const response = await fetch(`${base}/profile/two-factor/recovery-codes`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

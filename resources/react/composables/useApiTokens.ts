@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { usePanelBase } from './usePanelBase';
 
 export interface ApiToken {
     id: number;
@@ -10,6 +11,7 @@ export interface ApiToken {
 }
 
 export function useApiTokens(panelId: string = 'user') {
+    const base = usePanelBase(panelId);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [tokens, setTokens] = useState<ApiToken[]>([]);
@@ -20,7 +22,7 @@ export function useApiTokens(panelId: string = 'user') {
         setError(null);
 
         try {
-            const response = await fetch(`/${panelId}/profile/api-tokens`, {
+            const response = await fetch(`${base}/profile/api-tokens`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -49,7 +51,7 @@ export function useApiTokens(panelId: string = 'user') {
         setError(null);
 
         try {
-            const response = await fetch(`/${panelId}/profile/api-tokens`, {
+            const response = await fetch(`${base}/profile/api-tokens`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,7 +83,7 @@ export function useApiTokens(panelId: string = 'user') {
         setError(null);
 
         try {
-            const response = await fetch(`/${panelId}/profile/api-tokens/${tokenId}`, {
+            const response = await fetch(`${base}/profile/api-tokens/${tokenId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -124,7 +126,7 @@ export function useApiTokens(panelId: string = 'user') {
         setError(null);
 
         try {
-            const response = await fetch(`/${panelId}/profile/api-tokens/${tokenId}`, {
+            const response = await fetch(`${base}/profile/api-tokens/${tokenId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { usePanelBase } from './usePanelBase';
 
 export interface Session {
     id: string;
@@ -14,6 +15,7 @@ export interface Session {
 }
 
 export function useSessionManagement(panelId: string = 'user') {
+    const base = usePanelBase(panelId);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [sessions, setSessions] = useState<Session[]>([]);
@@ -23,7 +25,7 @@ export function useSessionManagement(panelId: string = 'user') {
         setError(null);
 
         try {
-            const response = await fetch(`/${panelId}/profile/sessions`, {
+            const response = await fetch(`${base}/profile/sessions`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,7 +54,7 @@ export function useSessionManagement(panelId: string = 'user') {
         setError(null);
 
         try {
-            const response = await fetch(`/${panelId}/profile/sessions/${sessionId}`, {
+            const response = await fetch(`${base}/profile/sessions/${sessionId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -84,7 +86,7 @@ export function useSessionManagement(panelId: string = 'user') {
         setError(null);
 
         try {
-            const response = await fetch(`/${panelId}/profile/sessions/others`, {
+            const response = await fetch(`${base}/profile/sessions/others`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { usePanelBase } from './usePanelBase';
 
 export interface Passkey {
     id: string;
@@ -156,6 +157,7 @@ function prepareCreationOptions(options: any): PublicKeyCredentialCreationOption
 export { prepareCreationOptions, arrayBufferToBase64url, base64ToUint8Array, stringToUint8Array };
 
 export function usePasskeys(panelId: string = 'user') {
+    const base = usePanelBase(panelId);
     const loading = ref(false);
     const error = ref<string | null>(null);
     const passkeys = ref<Passkey[]>([]);
@@ -165,7 +167,7 @@ export function usePasskeys(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/passkeys`, {
+            const response = await fetch(`${base}/profile/passkeys`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -194,7 +196,7 @@ export function usePasskeys(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/passkeys/register-options`, {
+            const response = await fetch(`${base}/profile/passkeys/register-options`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -222,7 +224,7 @@ export function usePasskeys(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/passkeys`, {
+            const response = await fetch(`${base}/profile/passkeys`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -252,7 +254,7 @@ export function usePasskeys(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/passkeys/${passkeyId}`, {
+            const response = await fetch(`${base}/profile/passkeys/${passkeyId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -281,7 +283,7 @@ export function usePasskeys(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/passkeys`, {
+            const response = await fetch(`${base}/profile/passkeys`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
