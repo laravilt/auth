@@ -26,9 +26,8 @@ export default function DeleteAccountSection({ deleteAction, deleteSchema }: Del
                     action={deleteAction}
                     method="DELETE"
                     className="space-y-4"
-                    // Vue binds `@submit="(e) => { if (!confirm(trans('profile.delete.confirm'))) e.preventDefault(); }"`,
-                    // but @inertiajs/vue3's <Form> spreads attrs and then overrides onSubmit, so that confirm never runs.
-                    // Ported as-is (no confirmation). Same in React: <Form> owns onSubmit.
+                    // <Form> owns onSubmit, so confirm in onBefore; returning false cancels the DELETE visit.
+                    onBefore={() => confirm(trans('profile.delete.confirm'))}
                 >
                     {({ errors, processing }) => (
                         <>

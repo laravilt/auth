@@ -1,6 +1,7 @@
 import { useLocalization } from '@laravilt/support/composables';
 import AuthLinks from './AuthLinks';
 import SocialLogin from './SocialLogin';
+import type { AuthSocialProvider } from '../types';
 
 export interface BottomAuthHookProps {
     forgotPasswordUrl?: string;
@@ -10,7 +11,7 @@ export interface BottomAuthHookProps {
     canRegister?: boolean;
     canLogin?: boolean;
     mode?: 'login' | 'register' | 'forgot-password';
-    socialProviders?: any[];
+    socialProviders?: AuthSocialProvider[];
     socialRedirectUrl?: string;
 }
 

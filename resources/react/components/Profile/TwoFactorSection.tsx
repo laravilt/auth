@@ -106,10 +106,9 @@ export default function TwoFactorSection({ twoFactorStatus, enableAction }: TwoF
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [setupDataKey]);
 
-    // Initialize selected method when available providers are loaded.
-    // Declared after the watcher so it runs after it on mount, like Vue's onMounted after an immediate watch.
+    // Default to the first available provider, unless the effect above restored a method from setup data.
     useEffect(() => {
-        if (twoFactorStatus?.available_providers && twoFactorStatus.available_providers.length > 0) {
+        if (!setupData?.method && twoFactorStatus?.available_providers && twoFactorStatus.available_providers.length > 0) {
             setSelectedMethod(twoFactorStatus.available_providers[0].name);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

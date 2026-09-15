@@ -18,6 +18,6 @@ export type Auth2FAMethod = 'totp' | 'email' | 'sms';
 export interface AuthSocialProvider {
     name: string;
     label: string;
-    icon?: string;
-    color?: string;
+    icon: string;
+    colorClasses: string;
 }

@@ -1,15 +1,9 @@
 import { useEffect, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
-
-interface SocialProvider {
-    name: string;
-    label: string;
-    icon: string;
-    colorClasses: string;
-}
+import type { AuthSocialProvider } from '../types';
 
 export interface SocialLoginProps {
-    providers?: SocialProvider[];
+    providers?: AuthSocialProvider[];
     redirectUrl?: string;
     children?: ReactNode;
 }
@@ -26,7 +20,7 @@ export default function SocialLogin({ providers, redirectUrl, children }: Social
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getProviderUrl = (provider: SocialProvider) => {
+    const getProviderUrl = (provider: AuthSocialProvider) => {
         if (!redirectUrl) {
             return `/auth/${provider.name}/redirect`;
         }

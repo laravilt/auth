@@ -254,7 +254,8 @@ export default function ManagePasskeysPage({
 
     const removePasskey = () => {
         if (passkeyToDelete) {
-            router.delete(`${registerUrl.replace('/register', '')}/${passkeyToDelete}`, {
+            // Only strip the trailing /register segment; the host or panel path may also contain "/register"
+            router.delete(`${registerUrl.replace(/\/register$/, '')}/${passkeyToDelete}`, {
                 preserveState: false,
                 preserveScroll: false,
                 onFinish: () => {
