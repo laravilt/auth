@@ -45,6 +45,8 @@ export interface ProfilePageProps {
     enableAction?: any;
     disableAction?: any;
     status?: string;
+    /** Active panel id, supplied as a top-level prop by the base Page. */
+    panelId?: string;
 }
 
 export default function ProfilePage({
@@ -58,6 +60,7 @@ export default function ProfilePage({
     enableAction,
     disableAction,
     status,
+    panelId,
 }: ProfilePageProps) {
     const { trans } = useLocalization();
 
@@ -141,23 +144,24 @@ export default function ProfilePage({
                                         twoFactorStatus={twoFactorStatus}
                                         enableAction={enableAction}
                                         disableAction={disableAction}
+                                        panelId={panelId}
                                     />
                                 )}
 
                                 {/* Session Management */}
-                                {features?.sessionManagement && <SessionManagementSection />}
+                                {features?.sessionManagement && <SessionManagementSection panelId={panelId} />}
 
                                 {/* API Tokens */}
-                                {features?.apiTokens && <ApiTokensSection />}
+                                {features?.apiTokens && <ApiTokensSection panelId={panelId} />}
 
                                 {/* Passkeys */}
-                                {features?.passkeys && <PasskeysSection />}
+                                {features?.passkeys && <PasskeysSection panelId={panelId} />}
 
                                 {/* Magic Links */}
                                 {features?.magicLinks && <MagicLinksSection />}
 
                                 {/* Connected Accounts */}
-                                {(features?.connectedAccounts || features?.socialLogin) && <ConnectedAccountsSection />}
+                                {(features?.connectedAccounts || features?.socialLogin) && <ConnectedAccountsSection panelId={panelId} />}
 
                                 {/* Delete Account */}
                                 <DeleteAccountSection deleteAction={deleteAction} deleteSchema={page.deleteSchema} />

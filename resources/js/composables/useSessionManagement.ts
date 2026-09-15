@@ -38,7 +38,7 @@ export function useSessionManagement(panelId: string = 'user') {
                 throw new Error(data.message || 'Failed to fetch sessions');
             }
 
-            sessions.value = data.sessions;
+            sessions.value = data.sessions ?? [];
             return data;
         } catch (err: any) {
             error.value = err.message;

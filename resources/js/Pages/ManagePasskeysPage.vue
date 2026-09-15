@@ -245,7 +245,8 @@ const confirmDeletePasskey = (passkeyId: string) => {
 
 const removePasskey = () => {
     if (passkeyToDelete.value) {
-        router.delete(`${props.registerUrl.replace('/register', '')}/${passkeyToDelete.value}`, {
+        // Only strip the trailing /register segment; the host or panel path may also contain "/register"
+        router.delete(`${props.registerUrl.replace(/\/register$/, '')}/${passkeyToDelete.value}`, {
             preserveState: false,
             preserveScroll: false,
             onFinish: () => {

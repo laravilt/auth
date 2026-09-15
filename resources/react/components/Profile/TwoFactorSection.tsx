@@ -1,4 +1,4 @@
-import { Form, router } from '@inertiajs/react';
+import { Form, router, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -61,18 +61,21 @@ export interface TwoFactorSectionProps {
     };
     enableAction?: TwoFactorAction;
     disableAction?: TwoFactorAction;
+    panelId?: string;
 }
 
 const cancelButtonClass =
     'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2';
 
-export default function TwoFactorSection({ twoFactorStatus, enableAction }: TwoFactorSectionProps) {
+export default function TwoFactorSection({ twoFactorStatus, enableAction, panelId }: TwoFactorSectionProps) {
     // Initialize localization
     const { trans } = useLocalization();
+    const page = usePage();
 
     const is2FAEnabled = twoFactorStatus?.enabled || false;
     const [showModal, setShowModal] = useState(false);
-    const twoFactor = useTwoFactor();
+    // Use the active panel (the page's top-level panelId prop), not always the 'user' panel
+    const twoFactor = useTwoFactor(panelId ?? (page.props.panelId as string | undefined) ?? 'user');
     const [twoFactorStep, setTwoFactorStep] = useState<'enable' | 'setup' | 'verify' | 'recovery' | 'disable'>('enable');
     const [selectedMethod, setSelectedMethod] = useState<string>('totp');
 

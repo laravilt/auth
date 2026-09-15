@@ -2,6 +2,7 @@
 import AuthLinks from './AuthLinks.vue';
 import SocialLogin from './SocialLogin.vue';
 import { useLocalization } from '@laravilt/support/composables';
+import type { AuthSocialProvider } from '../types';
 
 const { trans } = useLocalization();
 
@@ -13,7 +14,7 @@ const props = defineProps<{
     canRegister?: boolean;
     canLogin?: boolean;
     mode?: 'login' | 'register' | 'forgot-password';
-    socialProviders?: any[];
+    socialProviders?: AuthSocialProvider[];
     socialRedirectUrl?: string;
 }>();
 </script>

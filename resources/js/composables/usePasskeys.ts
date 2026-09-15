@@ -139,9 +139,16 @@ function prepareCreationOptions(options: any): PublicKeyCredentialCreationOption
         prepared.authenticatorSelection = publicKey.authenticatorSelection;
     }
 
-    // TEMPORARILY SKIP excludeCredentials to test if registration works
-    // This allows duplicate passkey registration but helps debug
-    console.log('Skipping excludeCredentials for testing. Server sent:', publicKey.excludeCredentials);
+    // Exclude the user's existing credentials so the authenticator does not register a duplicate
+    if (Array.isArray(publicKey.excludeCredentials)) {
+        prepared.excludeCredentials = publicKey.excludeCredentials
+            .filter((cred: any) => cred && cred.id)
+            .map((cred: any) => ({
+                type: cred.type || 'public-key',
+                id: stringToUint8Array(cred.id) as BufferSource,
+                transports: cred.transports,
+            }));
+    }
 
     return prepared;
 }
