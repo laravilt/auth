@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Modal from '@laravilt/support/components/Modal.vue';
@@ -9,8 +10,12 @@ import { useLocalization } from '@/composables/useLocalization';
 // Initialize localization
 const { trans } = useLocalization();
 
+const props = defineProps<{ panelId?: string }>();
+const page = usePage();
+
 const showModal = ref(false);
-const connectedAccounts = useConnectedAccounts();
+// Use the active panel (the page's top-level panelId prop), not always the 'user' panel
+const connectedAccounts = useConnectedAccounts(props.panelId ?? (page.props.panelId as string | undefined) ?? 'user');
 
 const handleOpenModal = async () => {
     showModal.value = true;
@@ -111,11 +116,17 @@ const handleCloseModal = () => {
                 </div>
             </div>
 
+            <!-- A failed load is not an empty result: show only the error -->
+            <p v-else-if="connectedAccounts.error.value" class="text-sm text-destructive">
+                {{ connectedAccounts.error.value }}
+            </p>
+
             <div v-else class="text-center py-4 text-sm text-muted-foreground">
                 {{ trans('profile.connected_accounts.no_providers') }}
             </div>
 
-            <p v-if="connectedAccounts.error.value" class="text-sm text-destructive">
+            <!-- Errors from actions on a loaded list (e.g. disconnect) -->
+            <p v-if="connectedAccounts.error.value && connectedAccounts.providers.value.length > 0" class="text-sm text-destructive">
                 {{ connectedAccounts.error.value }}
             </p>
         </div>

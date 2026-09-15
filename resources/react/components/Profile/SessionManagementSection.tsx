@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,14 +16,16 @@ import Modal from '@laravilt/support/components/Modal';
 import { useLocalization } from '@laravilt/support/composables/useLocalization';
 import { useSessionManagement } from '../../composables/useSessionManagement';
 
-export default function SessionManagementSection() {
+export default function SessionManagementSection({ panelId }: { panelId?: string }) {
     // Initialize localization
     const { trans } = useLocalization();
+    const page = usePage();
 
     const [showModal, setShowModal] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [sessionToLogout, setSessionToLogout] = useState<string | null>(null);
-    const sessionManagement = useSessionManagement();
+    // Use the active panel (the page's top-level panelId prop), not always the 'user' panel
+    const sessionManagement = useSessionManagement(panelId ?? (page.props.panelId as string | undefined) ?? 'user');
     const [sessionPassword, setSessionPassword] = useState<string>('');
 
     const handleOpenModal = async () => {

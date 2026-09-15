@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,12 +6,14 @@ import Modal from '@laravilt/support/components/Modal';
 import { useLocalization } from '@laravilt/support/composables/useLocalization';
 import { useConnectedAccounts } from '../../composables/useConnectedAccounts';
 
-export default function ConnectedAccountsSection() {
+export default function ConnectedAccountsSection({ panelId }: { panelId?: string }) {
     // Initialize localization
     const { trans } = useLocalization();
+    const page = usePage();
 
     const [showModal, setShowModal] = useState(false);
-    const connectedAccounts = useConnectedAccounts();
+    // Use the active panel (the page's top-level panelId prop), not always the 'user' panel
+    const connectedAccounts = useConnectedAccounts(panelId ?? (page.props.panelId as string | undefined) ?? 'user');
 
     const handleOpenModal = async () => {
         setShowModal(true);
@@ -121,13 +124,19 @@ export default function ConnectedAccountsSection() {
                                 </div>
                             ))}
                         </div>
+                    ) : connectedAccounts.error ? (
+                        /* A failed load is not an empty result: show only the error */
+                        <p className="text-sm text-destructive">{connectedAccounts.error}</p>
                     ) : (
                         <div className="text-center py-4 text-sm text-muted-foreground">
                             {trans('profile.connected_accounts.no_providers')}
                         </div>
                     )}
 
-                    {connectedAccounts.error && <p className="text-sm text-destructive">{connectedAccounts.error}</p>}
+                    {/* Errors from actions on a loaded list (e.g. disconnect) */}
+                    {connectedAccounts.error && connectedAccounts.providers.length > 0 && (
+                        <p className="text-sm text-destructive">{connectedAccounts.error}</p>
+                    )}
                 </div>
             </Modal>
         </>

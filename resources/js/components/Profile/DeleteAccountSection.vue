@@ -32,7 +32,7 @@ defineProps<Props>();
                 method="DELETE"
                 #default="{ errors, processing }"
                 class="space-y-4"
-                @submit="(e) => { if (!confirm(trans('profile.delete.confirm'))) e.preventDefault(); }"
+                :on-before="() => confirm(trans('profile.delete.confirm'))"
             >
                 <div v-for="field in deleteSchema" :key="field.name" class="space-y-2">
                     <Label :for="field.name">{{ field.label }}</Label>

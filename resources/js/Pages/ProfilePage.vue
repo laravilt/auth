@@ -56,6 +56,7 @@ interface Props {
     enableAction?: any;
     disableAction?: any;
     status?: string;
+    panelId?: string;
 }
 
 defineProps<Props>();
@@ -137,22 +138,23 @@ defineProps<Props>();
                         :two-factor-status="twoFactorStatus"
                         :enable-action="enableAction"
                         :disable-action="disableAction"
+                        :panel-id="panelId"
                     />
 
                     <!-- Session Management -->
-                    <SessionManagementSection v-if="features?.sessionManagement" />
+                    <SessionManagementSection v-if="features?.sessionManagement" :panel-id="panelId" />
 
                     <!-- API Tokens -->
-                    <ApiTokensSection v-if="features?.apiTokens" />
+                    <ApiTokensSection v-if="features?.apiTokens" :panel-id="panelId" />
 
                     <!-- Passkeys -->
-                    <PasskeysSection v-if="features?.passkeys" />
+                    <PasskeysSection v-if="features?.passkeys" :panel-id="panelId" />
 
                     <!-- Magic Links -->
                     <MagicLinksSection v-if="features?.magicLinks" />
 
                     <!-- Connected Accounts -->
-                    <ConnectedAccountsSection v-if="features?.connectedAccounts || features?.socialLogin" />
+                    <ConnectedAccountsSection v-if="features?.connectedAccounts || features?.socialLogin" :panel-id="panelId" />
 
                     <!-- Delete Account -->
                     <DeleteAccountSection

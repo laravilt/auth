@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,15 +16,17 @@ import Modal from '@laravilt/support/components/Modal';
 import { useLocalization } from '@laravilt/support/composables/useLocalization';
 import { arrayBufferToBase64url, prepareCreationOptions, usePasskeys } from '../../composables/usePasskeys';
 
-export default function PasskeysSection() {
+export default function PasskeysSection({ panelId }: { panelId?: string }) {
     // Initialize localization
     const { trans } = useLocalization();
+    const page = usePage();
 
     const [showModal, setShowModal] = useState(false);
     const [showRegisterModal, setShowRegisterModal] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [passkeyToDelete, setPasskeyToDelete] = useState<string | null>(null);
-    const passkeys = usePasskeys();
+    // Use the active panel (the page's top-level panelId prop), not always the 'user' panel
+    const passkeys = usePasskeys(panelId ?? (page.props.panelId as string | undefined) ?? 'user');
     const [passkeyName, setPasskeyName] = useState<string>('');
 
     const handleOpenModal = async () => {

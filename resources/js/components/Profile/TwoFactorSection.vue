@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-import { Form, router } from '@inertiajs/vue3';
+import { Form, router, usePage } from '@inertiajs/vue3';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -65,13 +65,16 @@ interface Props {
     };
     enableAction?: TwoFactorAction;
     disableAction?: TwoFactorAction;
+    panelId?: string;
 }
 
 const props = defineProps<Props>();
+const page = usePage();
 
 const is2FAEnabled = computed(() => props.twoFactorStatus?.enabled || false);
 const showModal = ref(false);
-const twoFactor = useTwoFactor();
+// Use the active panel (the page's top-level panelId prop), not always the 'user' panel
+const twoFactor = useTwoFactor(props.panelId ?? (page.props.panelId as string | undefined) ?? 'user');
 const twoFactorStep = ref<'enable' | 'setup' | 'verify' | 'recovery' | 'disable'>('enable');
 const selectedMethod = ref<string>('totp');
 
@@ -79,9 +82,9 @@ const selectedProvider = computed(() =>
     props.twoFactorStatus?.available_providers?.find(p => p.name === selectedMethod.value)
 );
 
-// Initialize selected method when available providers are loaded
+// Default to the first available provider, unless the immediate watcher below restored a method from setup data
 onMounted(() => {
-    if (props.twoFactorStatus?.available_providers && props.twoFactorStatus.available_providers.length > 0) {
+    if (!props.twoFactorStatus?.setup_data?.method && props.twoFactorStatus?.available_providers && props.twoFactorStatus.available_providers.length > 0) {
         selectedMethod.value = props.twoFactorStatus.available_providers[0].name;
     }
 });

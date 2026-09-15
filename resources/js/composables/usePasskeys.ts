@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { usePanelBase } from './usePanelBase';
 
 export interface Passkey {
     id: string;
@@ -139,9 +140,16 @@ function prepareCreationOptions(options: any): PublicKeyCredentialCreationOption
         prepared.authenticatorSelection = publicKey.authenticatorSelection;
     }
 
-    // TEMPORARILY SKIP excludeCredentials to test if registration works
-    // This allows duplicate passkey registration but helps debug
-    console.log('Skipping excludeCredentials for testing. Server sent:', publicKey.excludeCredentials);
+    // Exclude the user's existing credentials so the authenticator does not register a duplicate
+    if (Array.isArray(publicKey.excludeCredentials)) {
+        prepared.excludeCredentials = publicKey.excludeCredentials
+            .filter((cred: any) => cred && cred.id)
+            .map((cred: any) => ({
+                type: cred.type || 'public-key',
+                id: stringToUint8Array(cred.id) as BufferSource,
+                transports: cred.transports,
+            }));
+    }
 
     return prepared;
 }
@@ -149,6 +157,7 @@ function prepareCreationOptions(options: any): PublicKeyCredentialCreationOption
 export { prepareCreationOptions, arrayBufferToBase64url, base64ToUint8Array, stringToUint8Array };
 
 export function usePasskeys(panelId: string = 'user') {
+    const base = usePanelBase(panelId);
     const loading = ref(false);
     const error = ref<string | null>(null);
     const passkeys = ref<Passkey[]>([]);
@@ -158,7 +167,7 @@ export function usePasskeys(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/passkeys`, {
+            const response = await fetch(`${base}/profile/passkeys`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -187,7 +196,7 @@ export function usePasskeys(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/passkeys/register-options`, {
+            const response = await fetch(`${base}/profile/passkeys/register-options`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -215,7 +224,7 @@ export function usePasskeys(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/passkeys`, {
+            const response = await fetch(`${base}/profile/passkeys`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -245,7 +254,7 @@ export function usePasskeys(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/passkeys/${passkeyId}`, {
+            const response = await fetch(`${base}/profile/passkeys/${passkeyId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -274,7 +283,7 @@ export function usePasskeys(panelId: string = 'user') {
         error.value = null;
 
         try {
-            const response = await fetch(`/${panelId}/profile/passkeys`, {
+            const response = await fetch(`${base}/profile/passkeys`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

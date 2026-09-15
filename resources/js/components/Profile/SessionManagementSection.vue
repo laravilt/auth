@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -13,10 +14,14 @@ import { useLocalization } from '@/composables/useLocalization';
 // Initialize localization
 const { trans } = useLocalization();
 
+const props = defineProps<{ panelId?: string }>();
+const page = usePage();
+
 const showModal = ref(false);
 const showLogoutConfirm = ref(false);
 const sessionToLogout = ref<string | null>(null);
-const sessionManagement = useSessionManagement();
+// Use the active panel (the page's top-level panelId prop), not always the 'user' panel
+const sessionManagement = useSessionManagement(props.panelId ?? (page.props.panelId as string | undefined) ?? 'user');
 const sessionPassword = ref<string>('');
 
 const handleOpenModal = async () => {

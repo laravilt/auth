@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,13 +9,15 @@ import Modal from '@laravilt/support/components/Modal';
 import { useLocalization } from '@laravilt/support/composables/useLocalization';
 import { useApiTokens } from '../../composables/useApiTokens';
 
-export default function ApiTokensSection() {
+export default function ApiTokensSection({ panelId }: { panelId?: string }) {
     // Initialize localization
     const { trans } = useLocalization();
+    const page = usePage();
 
     const [showModal, setShowModal] = useState(false);
     const [showTokenCreated, setShowTokenCreated] = useState(false);
-    const apiTokens = useApiTokens();
+    // Use the active panel (the page's top-level panelId prop), not always the 'user' panel
+    const apiTokens = useApiTokens(panelId ?? (page.props.panelId as string | undefined) ?? 'user');
     const [tokenName, setTokenName] = useState<string>('');
     const [tokenAbilities, setTokenAbilities] = useState<string[]>(['read']);
 

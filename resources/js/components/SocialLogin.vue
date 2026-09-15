@@ -1,15 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-
-interface SocialProvider {
-    name: string;
-    label: string;
-    icon: string;
-    colorClasses: string;
-}
+import type { AuthSocialProvider } from '../types';
 
 const props = defineProps<{
-    providers?: SocialProvider[];
+    providers?: AuthSocialProvider[];
     redirectUrl?: string;
 }>();
 

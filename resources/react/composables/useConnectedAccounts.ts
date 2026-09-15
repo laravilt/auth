@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { usePanelBase } from './usePanelBase';
 
 export interface ConnectedAccount {
     provider: string;
@@ -17,6 +18,7 @@ export interface Provider {
 }
 
 export function useConnectedAccounts(panelId: string = 'user') {
+    const base = usePanelBase(panelId);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [providers, setProviders] = useState<Provider[]>([]);
@@ -26,7 +28,7 @@ export function useConnectedAccounts(panelId: string = 'user') {
         setError(null);
 
         try {
-            const response = await fetch(`/${panelId}/profile/connected-accounts`, {
+            const response = await fetch(`${base}/profile/connected-accounts`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -55,7 +57,7 @@ export function useConnectedAccounts(panelId: string = 'user') {
         setError(null);
 
         try {
-            const response = await fetch(`/${panelId}/profile/connected-accounts/${provider}`, {
+            const response = await fetch(`${base}/profile/connected-accounts/${provider}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

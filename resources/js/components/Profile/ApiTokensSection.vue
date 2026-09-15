@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -12,9 +13,13 @@ import { useLocalization } from '@/composables/useLocalization';
 // Initialize localization
 const { trans } = useLocalization();
 
+const props = defineProps<{ panelId?: string }>();
+const page = usePage();
+
 const showModal = ref(false);
 const showTokenCreated = ref(false);
-const apiTokens = useApiTokens();
+// Use the active panel (the page's top-level panelId prop), not always the 'user' panel
+const apiTokens = useApiTokens(props.panelId ?? (page.props.panelId as string | undefined) ?? 'user');
 const tokenName = ref<string>('');
 const tokenAbilities = ref<string[]>(['read']);
 
