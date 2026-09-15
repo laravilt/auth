@@ -18,12 +18,13 @@ use Laravilt\Auth\Events\TwoFactorChallengeSuccessful;
 use Laravilt\Auth\Events\TwoFactorDisabled;
 use Laravilt\Auth\Events\TwoFactorEnabled;
 use Laravilt\Auth\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class EventsTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function all_auth_events_have_required_properties()
     {
         // Login Events
@@ -89,7 +90,7 @@ class EventsTest extends TestCase
         $this->assertEquals($user, $passwordReset->user);
     }
 
-    /** @test */
+    #[Test]
     public function events_are_dispatchable()
     {
         Event::fake();
