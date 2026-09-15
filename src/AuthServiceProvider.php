@@ -75,7 +75,7 @@ class AuthServiceProvider extends ServiceProvider
 
             // Publish frontend pages for the application's stack (Vue or React)
             $this->publishes([
-                __DIR__.'/../resources/'.Frontend::resourceDirectory().'/Pages' => resource_path('js/pages/laravilt/auth'),
+                __DIR__.'/../resources/'.(class_exists(Frontend::class) ? Frontend::resourceDirectory() : 'js').'/Pages' => resource_path('js/pages/laravilt/auth'),
             ], 'laravilt-auth-views');
 
             // Publish migrations
